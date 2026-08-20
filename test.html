@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Test — U-NiceNutraCare</title>
+<style>
+  body { font-family: monospace; padding: 20px; background: #111; color: #0f0; }
+  .err { color: #f44; }
+  .ok { color: #0f0; }
+  pre { background: #222; padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
+  h2 { color: #fff; }
+  .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px; margin: 8px 0; }
+  .card img { max-width: 200px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h2>U-NiceNutraCare — API Test Page</h2>
+<div id="log"></div>
+<hr style="border-color:#333">
+<h2>Products</h2>
+<div id="products"></div>
+
+<script>
+const API = 'https://unicenutra-api.fomstreet-ke.workers.dev';
+const log = document.getElementById('log');
+const productsDiv = document.getElementById('products');
+
+function addLog(msg, cls) {
+  const p = document.createElement('p');
+  p.className = cls || '';
+  p.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  log.appendChild(p);
+}
+
+addLog('Script loaded. Fetching products from ' + API + '/api/products ...');
+
+fetch(API + '/api/products')
+  .then(function(res) {
+    addLog('HTTP ' + res.status + ' ' + res.statusText, res.ok ? 'ok' : 'err');
+    addLog('Content-Type: ' + res.headers.get('content-type'));
+    return res.json();
+  })
+  .then(function(data) {
+    var products = data.products || [];
+    addLog('Got ' + products.length + ' products. Total: ' + data.total, 'ok');
+
+    if (products.length === 0) {
+      addLog('ERROR: No products in response!', 'err');
+      productsDiv.innerHTML = '<p class="err">No products returned from API</p>';
+      return;
+    }
+
+    productsDiv.innerHTML = products.map(function(p) {
+      return '<div class="card">' +
+        '<img src="' + API.replace('https://unicenutra-api.fomstreet-ke.workers.dev', 'https://unicenutra-care.pages.dev') + '/' + p.image_url + '" onerror="this.style.display=\'none\'">' +
+        '<p><strong>' + p.name_en + '</strong></p>' +
+        '<p>KSh ' + p.price + ' | ' + p.category + ' | Stock: ' + p.stock + '</p>' +
+        '</div>';
+    }).join('');
+
+    addLog('Rendered ' + products.length + ' cards.', 'ok');
+  })
+  .catch(function(err) {
+    addLog('FETCH FAILED: ' + err.message, 'err');
+    addLog(err.stack || '', 'err');
+    productsDiv.innerHTML = '<p class="err">Fetch failed: ' + err.message + '</p>';
+  });
+</script>
+</body>
+</html>

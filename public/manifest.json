@@ -1,0 +1,55 @@
+{
+  "name": "U-NiceNutraCare — Natural Wellness Shop",
+  "short_name": "U-NiceNutra",
+  "description": "Nairobi's trusted natural wellness shop. Fresh seedlings, medicinal herbs, spices, kefir, kombucha & nutrition consulting.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2d7a4f",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "health", "food"],
+  "lang": "en",
+  "dir": "ltr",
+  "id": "/",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%232d7a4f'/%3E%3Ctext x='96' y='120' text-anchor='middle' font-size='100'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%232d7a4f'/%3E%3Ctext x='96' y='120' text-anchor='middle' font-size='100'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%232d7a4f'/%3E%3Ctext x='256' y='320' text-anchor='middle' font-size='260'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%232d7a4f'/%3E%3Ctext x='256' y='320' text-anchor='middle' font-size='260'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Shop Now",
+      "url": "/#products",
+      "description": "Browse our natural wellness products"
+    },
+    {
+      "name": "WhatsApp Order",
+      "url": "https://wa.me/254741090659?text=Hello!%20I%27d%20like%20to%20place%20an%20order.",
+      "description": "Order directly via WhatsApp"
+    }
+  ]
+}

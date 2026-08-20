@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Public Sans',sans-serif;background:#f8faf7;color:#1a2e1a;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+.header-autohide{transition:transform .3s ease,background .3s ease,box-shadow .3s ease}
+.header-autohide.header-hidden{transform:translateY(-100%)}
+.header-autohide.header-visible{transform:translateY(0)}
+
+.glass-header{background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+
+.skeleton{background:linear-gradient(90deg,#e8ede6 25%,#f0f4ee 50%,#e8ede6 75%);background-size:200% 100%;animation:skeleton-pulse 1.5s ease-in-out infinite}
+@keyframes skeleton-pulse{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+.haptic{transition:transform .1s ease}
+.haptic:active{transform:scale(0.97)!important}
+
+.swiper-pagination-bullet-active{background:#2d7a4f!important}
+.swiper-button-next,.swiper-button-prev{color:#fff!important;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.banner-slide{position:relative;overflow:hidden;border-radius:16px}
+
+@keyframes leafWave1 {
+  0%, 100% { transform: rotate(0deg) scaleX(1); }
+  10% { transform: rotate(5deg) scaleX(0.97); }
+  20% { transform: rotate(-3deg) scaleX(1.02); }
+  35% { transform: rotate(6deg) scaleX(0.95); }
+  50% { transform: rotate(-2deg) scaleX(1.01); }
+  65% { transform: rotate(4deg) scaleX(0.98); }
+  80% { transform: rotate(-4deg) scaleX(1); }
+  90% { transform: rotate(2deg) scaleX(0.99); }
+}
+@keyframes leafWave2 {
+  0%, 100% { transform: rotate(0deg) scaleX(1); }
+  12% { transform: rotate(-4deg) scaleX(1.03); }
+  25% { transform: rotate(5deg) scaleX(0.96); }
+  40% { transform: rotate(-6deg) scaleX(1.02); }
+  55% { transform: rotate(3deg) scaleX(0.97); }
+  70% { transform: rotate(-5deg) scaleX(1.01); }
+  85% { transform: rotate(2deg) scaleX(0.99); }
+}
+@keyframes stemSway {
+  0%, 100% { d: path("M12 22 C12 16, 14 10, 12 4"); }
+  25% { d: path("M12 22 C13 16, 15 10, 13 4"); }
+  50% { d: path("M12 22 C11 16, 13 10, 11 4"); }
+  75% { d: path("M12 22 C13 16, 14 10, 12.5 4"); }
+}
+.logo-box { position: relative; }
+.logo-box:hover .logo-leaf-main { animation: leafWave1 1s ease-in-out infinite; }
+.logo-box:hover .logo-leaf-small { animation: leafWave2 1.3s ease-in-out infinite 0.15s; }
+.logo-box:hover .logo-stem { animation: stemSway 1.5s ease-in-out infinite; }
+.logo-leaf-main { transform-origin: 12px 16px; animation: leafWave1 4s ease-in-out infinite; }
+.logo-leaf-small { transform-origin: 12px 14px; animation: leafWave2 5s ease-in-out infinite 1s; }
+
+.product-card{transition:transform .25s ease,box-shadow .25s ease}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(45,122,79,0.15)}
+.product-img img{transition:transform .35s ease}
+.product-card:hover .product-img img{transform:scale(1.05)}
+
+[data-reveal]{transition:opacity .6s ease,transform .6s ease}
+[data-reveal].revealed{opacity:1;transform:translateY(0)}
+
+#backToTop{opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+#backToTop.visible{opacity:1;pointer-events:auto}
+
+@keyframes cart-bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.cart-bounce{animation:cart-bounce .3s ease}
+
+.toast-enter{animation:toast-in .3s ease forwards}
+.toast-exit{animation:toast-out .3s ease forwards}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes toast-out{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-12px)}}
+
+.category-card{transition:transform .2s ease,box-shadow .2s ease}
+.category-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+
+.mobile-bottom-nav{display:none}
+@media(max-width:1023px){.mobile-bottom-nav{display:flex}}
+
+.review-star{cursor:pointer;font-size:1.25rem;transition:color .15s}
+.review-star:hover{transform:scale(1.15)}
+
+.price-filter-btn.active{background:#2d7a4f;color:#fff}
+
+.tab-btn.active{background:#2d7a4f;color:#fff;border-color:#2d7a4f}
+
+.toast-stack{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast-stack>div{pointer-events:auto}
+
+.line-clamp-1{overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}

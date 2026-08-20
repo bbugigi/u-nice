@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>U-NiceNutraCare — Natural Wellness Shop | Nairobi, Kenya</title>
+<meta name="description" content="U-NiceNutraCare is Nairobi's trusted natural wellness shop. Fresh seedlings, medicinal herbs, spices, kefir, kombucha & nutrition consulting. Organic products delivered across Kenya.">
+<meta name="keywords" content="seedlings Kenya, medicinal herbs Nairobi, moringa powder, turmeric supplements, kefir Kenya, kombucha Nairobi, organic herbs, natural wellness Kenya, nutrition consulting Nairobi">
+<meta name="robots" content="index, follow">
+<meta name="author" content="U-NiceNutraCare">
+<link rel="canonical" href="https://unicenutra-care.pages.dev/">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2d7a4f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="U-NiceNutraCare">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<meta property="og:title" content="U-NiceNutraCare — Natural Wellness Shop">
+<meta property="og:description" content="Nairobi's trusted wellness supplement shop. Cardiovascular support, cellular defense, skeletal minerals, neurological adaptogens, women's health & probiotics.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://unicenutra-care.pages.dev/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=1200&h=630&fit=crop">
+<meta property="og:locale" content="en_KE">
+<meta property="og:site_name" content="U-NiceNutraCare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="U-NiceNutraCare — Natural Wellness Shop">
+<meta name="twitter:description" content="Nairobi's trusted wellness supplement shop. Cardiovascular support, cellular defense, skeletal minerals, neurological adaptogens, women's health & probiotics.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=1200&h=630&fit=crop">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<!-- ===== DESKTOP NAVIGATION (Sticky, Glassmorphic, Auto-Hiding) ===== -->
+<nav id="mainNav" class="header-autohide header-visible glass-header hidden lg:flex fixed top-0 left-0 right-0 z-40 shadow-nav h-16 items-center px-6 gap-6" role="navigation" aria-label="Main navigation">
+  <a href="#" class="flex items-center gap-2.5 shrink-0" aria-label="U-NiceNutraCare Home">
+    <div class="logo-box w-9 h-9 bg-primary rounded-xl flex items-center justify-center overflow-hidden cursor-pointer"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path class="logo-stem" d="M12 22 C12 16, 14 10, 12 4" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/><path class="logo-leaf-main" d="M12 4 C8 6, 4 10, 6 14 C8 18, 12 16, 12 12 C12 8, 16 6, 12 4Z" fill="rgba(255,255,255,0.95)"/><path class="logo-leaf-small" d="M12 8 C14 9, 17 11, 16 14 C15 16, 12 15, 12 12 C12 10, 10 9, 12 8Z" fill="rgba(255,255,255,0.7)"/></svg></div>
+    <div><span class="font-display font-bold text-heading text-lg leading-tight block">U-NiceNutraCare</span><span class="text-[10px] text-paragraph font-medium tracking-wider uppercase" data-i18n="tagline">Natural · Organic · Nutritious</span></div>
+  </a>
+  <div class="flex-1 max-w-xl flex items-center bg-gray-50 rounded-full border border-gray-200 px-4 py-2 transition-all duration-300 focus-within:border-primary focus-within:shadow-sm relative">
+    <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search seedlings, herbs, spices, kefir..." class="flex-1 bg-transparent border-none outline-none text-sm ml-3 text-heading placeholder-gray-400" aria-label="Search products">
+    <button id="searchClear" class="hidden text-gray-400 hover:text-heading ml-1 haptic" aria-label="Clear search"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    <div id="searchAutocomplete" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 max-h-80 overflow-y-auto"></div>
+  </div>
+  <div class="flex items-center gap-1">
+    <div class="flex items-center bg-gray-100 rounded-full p-0.5 mr-1" role="radiogroup" aria-label="Language selector">
+      <button class="lang-btn bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full transition haptic" data-lang="en" onclick="App.I18n.setLanguage('en')" role="radio" aria-checked="true">EN</button>
+      <button class="lang-btn bg-gray-100 text-paragraph text-[10px] font-bold px-2 py-1 rounded-full transition haptic" data-lang="sw" onclick="App.I18n.setLanguage('sw')" role="radio" aria-checked="false">SW</button>
+      <button class="lang-btn bg-gray-100 text-paragraph text-[10px] font-bold px-2 py-1 rounded-full transition haptic" data-lang="fr" onclick="App.I18n.setLanguage('fr')" role="radio" aria-checked="false">FR</button>
+    </div>
+    <button onclick="App.Cart.open()" class="relative p-2.5 rounded-xl hover:bg-surface-alt transition haptic" aria-label="Open cart">
+      <svg class="w-5 h-5 text-heading" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span id="cartCount" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center hidden" style="min-width:18px;height:18px;">0</span>
+    </button>
+    <button onclick="App.Wishlist.open()" class="relative p-2.5 rounded-xl hover:bg-surface-alt transition haptic" aria-label="Open wishlist">
+      <svg class="w-5 h-5 text-heading" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+      <span id="wishlistCount" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center hidden" style="min-width:18px;height:18px;">0</span>
+    </button>
+    <button onclick="App.Account.open()" class="flex items-center gap-1.5 p-2.5 rounded-xl hover:bg-surface-alt transition haptic" aria-label="My Account">
+      <svg class="w-5 h-5 text-heading" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span id="accountNavLabel" class="text-sm font-medium text-heading hidden lg:inline">Sign In</span>
+    </button>
+    <a href="#contact" class="ml-2 bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-primary-dark transition haptic" data-i18n="order_now">Order Now</a>
+  </div>
+</nav>
+
+<!-- ===== MOBILE HEADER ===== -->
+<header class="lg:hidden fixed top-0 left-0 right-0 z-40 glass-header shadow-nav h-14 flex items-center justify-between px-4" role="banner">
+  <button onclick="App.UI.openSidebar()" class="p-2 rounded-lg hover:bg-surface-alt transition haptic" aria-label="Open menu">
+    <svg class="w-6 h-6 text-heading" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="flex items-center gap-2">
+    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center logo-box"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"><path class="logo-stem" d="M12 22 C12 16, 14 10, 12 4" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/><path class="logo-leaf-main" d="M12 4 C8 6, 4 10, 6 14 C8 18, 12 16, 12 12 C12 8, 16 6, 12 4Z" fill="rgba(255,255,255,0.95)"/><path class="logo-leaf-small" d="M12 8 C14 9, 17 11, 16 14 C15 16, 12 15, 12 12 C12 10, 10 9, 12 8Z" fill="rgba(255,255,255,0.7)"/></svg></div>
+    <span class="font-display font-bold text-heading text-sm">U-NiceNutraCare</span>
+  </div>
+  <div class="flex items-center gap-1">
+    <button onclick="App.Cart.open()" class="relative p-2 rounded-lg hover:bg-surface-alt transition haptic" aria-label="Open cart">
+      <svg class="w-5 h-5 text-heading" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span id="cartCountMobile" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center hidden" style="min-width:18px;height:18px;">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== MOBILE SIDEBAR ===== -->
+<div id="mobileSidebar" class="fixed inset-0 z-50 lg:hidden transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="absolute inset-0 bg-black/40" onclick="App.UI.closeSidebar()"></div>
+  <div class="relative bg-white w-72 h-full shadow-2xl overflow-y-auto">
+    <div class="p-5 bg-primary">
+      <div class="logo-box w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3"><svg class="w-7 h-7" viewBox="0 0 24 24" fill="none"><path class="logo-stem" d="M12 22 C12 16, 14 10, 12 4" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/><path class="logo-leaf-main" d="M12 4 C8 6, 4 10, 6 14 C8 18, 12 16, 12 12 C12 8, 16 6, 12 4Z" fill="rgba(255,255,255,0.95)"/><path class="logo-leaf-small" d="M12 8 C14 9, 17 11, 16 14 C15 16, 12 15, 12 12 C12 10, 10 9, 12 8Z" fill="rgba(255,255,255,0.7)"/></svg></div>
+      <p class="text-white font-bold">U-NiceNutraCare</p>
+      <p class="text-white/70 text-sm" data-i18n="mobile_subtitle">Natural Wellness Shop</p>
+    </div>
+    <div class="p-4">
+      <a href="#home" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span data-i18n="nav_home">Home</span></a>
+      <a href="#categories" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span data-i18n="nav_categories">Categories</span></a>
+      <a href="#products" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2z"/></svg><span data-i18n="nav_products">Products</span></a>
+      <a href="#flash-sale" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg><span data-i18n="nav_flash">Flash Sale</span></a>
+      <a href="#nutrition" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 000 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg><span data-i18n="nav_nutrition">Nutrition</span></a>
+      <hr class="my-3 border-gray-100">
+      <a href="#" onclick="event.preventDefault(); App.UI.closeSidebar(); setTimeout(function(){ window.open('https://u-nice-nutracare-kenya-926et7e6.durable.site/','_blank'); }, 100);" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span data-i18n="nav_about">About Us</span></a>
+      <a href="#contact" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span data-i18n="nav_contact">Contact</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CART DRAWER ===== -->
+<div id="cartDrawer" class="fixed inset-0 z-50 transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="Shopping cart">
+  <div class="absolute inset-0 bg-black/40" onclick="App.Cart.close()"></div>
+  <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <h2 class="font-display font-bold text-heading text-lg" data-i18n="cart_title">Your Cart</h2>
+        <span id="cartCountHeader" class="bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+      </div>
+      <button onclick="App.Cart.close()" class="p-2 rounded-lg hover:bg-gray-100 transition haptic" aria-label="Close cart"><svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3">
+      <div id="cartEmpty" class="flex flex-col items-center justify-center h-full text-center py-12">
+        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4"><svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
+        <p class="text-gray-500 font-medium mb-1" data-i18n="cart_empty">Your cart is empty</p>
+        <p class="text-gray-400 text-sm mb-4" data-i18n="cart_empty_sub">Add some products to get started!</p>
+        <button onclick="App.Cart.close()" class="bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-primary-dark transition haptic" data-i18n="cart_continue">Continue Shopping</button>
+      </div>
+    </div>
+    <div id="cartFooter" class="border-t border-gray-100 p-4 hidden">
+      <div class="mb-3">
+        <div class="flex gap-2">
+          <input type="text" id="promoInput" data-i18n-placeholder="cart_promo_placeholder" placeholder="Promo code" class="flex-1 bg-surface border border-gray-200 rounded-xl px-3 py-2 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+          <button onclick="App.Cart.applyPromo()" class="bg-secondary text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-secondary-light transition haptic" data-i18n="cart_promo_apply">Apply</button>
+        </div>
+        <p id="promoMsg" class="hidden"></p>
+      </div>
+      <div class="flex items-center gap-3 mb-3 text-sm">
+        <span class="text-paragraph" data-i18n="cart_location">Delivery Location:</span>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="deliveryLoc" value="nairobi" checked onchange="App.Cart.setDelivery('nairobi')" class="accent-primary"><span data-i18n="cart_location_nairobi">Nairobi</span></label>
+        <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="deliveryLoc" value="other" onchange="App.Cart.setDelivery('other')" class="accent-primary"><span data-i18n="cart_location_other">Other Kenya</span></label>
+      </div>
+      <div class="flex items-center justify-between mb-1"><span class="text-sm text-paragraph" data-i18n="cart_subtotal">Subtotal</span><span id="cartSubtotal" class="font-display font-bold text-heading">KSh 0</span></div>
+      <div class="flex items-center justify-between mb-1"><span class="text-sm text-paragraph" data-i18n="cart_delivery_cost">Delivery</span><span id="cartDeliveryLine" class="text-sm text-primary font-medium"><span data-i18n="cart_free_delivery">Free over KSh 2,000</span></span></div>
+      <div id="cartDiscountLine" class="flex items-center justify-between mb-1 hidden"><span class="text-sm text-paragraph" data-i18n="cart_discount">Discount</span><span id="cartDiscountAmount" class="text-sm text-green-600 font-medium">-KSh 0</span></div>
+      <div class="flex items-center justify-between mb-4 pt-3 border-t border-gray-100"><span class="font-semibold text-heading" data-i18n="cart_total">Total</span><span id="cartTotal" class="font-display font-bold text-primary text-xl">KSh 0</span></div>
+      <button onclick="App.Cart.checkoutWhatsApp()" class="w-full bg-[#25d366] text-white font-bold text-sm py-3.5 rounded-full hover:bg-[#20bd5a] transition flex items-center justify-center gap-2 haptic mb-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Checkout via WhatsApp
+      </button>
+      <button onclick="App.Cart.checkoutPaystack()" class="w-full bg-[#1a1a2e] text-white font-bold text-sm py-3 rounded-full hover:bg-[#2d2d4e] transition flex items-center justify-center gap-2 haptic">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        Pay with Card
+      </button>
+      <button onclick="App.Cart.clear()" class="w-full mt-2 text-gray-400 text-xs font-medium py-2 hover:text-red-500 transition" data-i18n="cart_clear">Clear Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="pt-14 lg:pt-16 pb-20 lg:pb-0">
+
+<!-- HERO BANNER -->
+<section id="home" class="px-4 lg:px-6 pt-4 lg:pt-6" data-reveal>
+  <div class="swiper bannerSwiper rounded-2xl overflow-hidden">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="banner-slide relative h-[220px] sm:h-[320px] lg:h-[420px] bg-gradient-to-br from-primary-dark via-primary to-primary-light flex items-center">
+          <div class="relative z-10 px-8 lg:px-16 max-w-2xl">
+            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 tracking-wide uppercase" data-i18n="hero_slide1_tag">New Season Collection</span>
+            <h1 class="font-display font-extrabold text-white text-2xl sm:text-4xl lg:text-5xl leading-tight mb-3" data-i18n="hero_slide1_title">Fresh Seedlings<br>For Your Garden</h1>
+            <p class="text-white/75 text-sm sm:text-base mb-5 max-w-md hidden sm:block" data-i18n="hero_slide1_sub">Healthy, well-nurtured seedlings ready to transplant. Tomatoes, kale, herbs, and more.</p>
+            <a href="#products" class="inline-flex items-center gap-2 bg-white text-primary font-bold text-sm px-6 py-3 rounded-full hover:bg-gray-50 transition shadow-lg haptic" data-i18n="hero_shop">Shop Now<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:flex items-center justify-center opacity-30"><span class="text-[14rem]">🌱</span></div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="banner-slide relative h-[220px] sm:h-[320px] lg:h-[420px] bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-500 flex items-center">
+          <div class="relative z-10 px-8 lg:px-16 max-w-2xl">
+            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 tracking-wide uppercase" data-i18n="hero_slide2_tag">Medicinal Herbs</span>
+            <h1 class="font-display font-extrabold text-white text-2xl sm:text-4xl lg:text-5xl leading-tight mb-3" data-i18n="hero_slide2_title">Heal With<br>Nature's Power</h1>
+            <p class="text-white/75 text-sm sm:text-base mb-5 max-w-md hidden sm:block" data-i18n="hero_slide2_sub">Hand-harvested Moringa, Tulsi, Rosemary, and more. Locally grown, pesticide-free.</p>
+            <a href="#products" class="inline-flex items-center gap-2 bg-white text-emerald-700 font-bold text-sm px-6 py-3 rounded-full hover:bg-gray-50 transition shadow-lg haptic" data-i18n="hero_explore">Explore Herbs<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:flex items-center justify-center opacity-30"><span class="text-[14rem]">🌿</span></div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="banner-slide relative h-[220px] sm:h-[320px] lg:h-[420px] bg-gradient-to-br from-amber-600 via-secondary to-secondary-light flex items-center">
+          <div class="relative z-10 px-8 lg:px-16 max-w-2xl">
+            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 tracking-wide uppercase" data-i18n="hero_slide3_tag">Spices & Probiotics</span>
+            <h1 class="font-display font-extrabold text-white text-2xl sm:text-4xl lg:text-5xl leading-tight mb-3" data-i18n="hero_slide3_title">Premium<br>Spices & Kombucha</h1>
+            <p class="text-white/75 text-sm sm:text-base mb-5 max-w-md hidden sm:block" data-i18n="hero_slide3_sub">Turmeric, Ginger, Kefir, Kombucha — fresh from Kiambu for daily wellness.</p>
+            <a href="#products" class="inline-flex items-center gap-2 bg-white text-amber-700 font-bold text-sm px-6 py-3 rounded-full hover:bg-gray-50 transition shadow-lg haptic" data-i18n="hero_powders">Shop Spices<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:flex items-center justify-center opacity-30"><span class="text-[14rem]">🫚</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="banner-pagination swiper-pagination"></div>
+    <div class="banner-prev swiper-button-prev !hidden lg:!flex"></div>
+    <div class="banner-next swiper-button-next !hidden lg:!flex"></div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories" class="px-4 lg:px-6 mt-6 lg:mt-8" aria-label="Product categories" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="shop_by_category">Shop by Category</h2>
+    <a href="#products" class="text-primary text-sm font-semibold hover:underline" data-i18n="view_all">View All →</a>
+  </div>
+  <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 lg:gap-4">
+    <a href="#products" onclick="App.Products.filter('seedlings',document.querySelector('[onclick*=seedlings]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-green-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-green-100 transition">🌱</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_seedlings">Seedlings</p>
+      <p class="text-xs text-paragraph mt-0.5">5 items</p>
+    </a>
+    <a href="#products" onclick="App.Products.filter('herbs',document.querySelector('[onclick*=herbs]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-emerald-100 transition">🌿</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_herbs">Fresh Herbs</p>
+      <p class="text-xs text-paragraph mt-0.5">5 items</p>
+    </a>
+    <a href="#products" onclick="App.Products.filter('spices',document.querySelector('[onclick*=spices]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-amber-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-amber-100 transition">🫚</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_spices">Spices & Supplements</p>
+      <p class="text-xs text-paragraph mt-0.5">5 items</p>
+    </a>
+    <a href="#products" onclick="App.Products.filter('kefir',document.querySelector('[onclick*=kefir]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-rose-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-rose-100 transition">🍵</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_kefir">Kefir & Kombucha</p>
+      <p class="text-xs text-paragraph mt-0.5">5 items</p>
+    </a>
+    <a href="#nutrition" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-orange-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-orange-100 transition">📋</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_diet">Diet Plans</p>
+      <p class="text-xs text-paragraph mt-0.5">6 plans</p>
+    </a>
+    <a href="#nutrition" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-blue-100 transition">🧑‍⚕️</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_consult">Consulting</p>
+      <p class="text-xs text-paragraph mt-0.5">Book now</p>
+    </a>
+  </div>
+</section>
+
+<!-- TRUST BADGES -->
+<section class="px-4 lg:px-6 mt-6 lg:mt-8" data-reveal>
+  <div class="bg-gradient-to-r from-primary-dark via-primary to-primary-light rounded-2xl p-6 lg:p-8 text-white">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <div><p class="font-bold text-sm" data-i18n="trust_natural">100% Natural</p><p class="text-white/70 text-xs" data-i18n="trust_natural_sub">Certified organic products</p></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+        <div><p class="font-bold text-sm" data-i18n="trust_delivery">Free Delivery</p><p class="text-white/70 text-xs" data-i18n="trust_delivery_sub">On orders over KSh 2,000</p></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div><p class="font-bold text-sm" data-i18n="trust_support">24/7 Support</p><p class="text-white/70 text-xs" data-i18n="trust_support_sub">WhatsApp & phone</p></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
+        <div><p class="font-bold text-sm" data-i18n="trust_returns">Easy Returns</p><p class="text-white/70 text-xs" data-i18n="trust_returns_sub">7-day return policy</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEEDLINGS CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Seedlings" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="seedlings_title">Fresh Seedlings</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="seedlings_sub">Healthy plants ready to transplant</p></div>
+    <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
+  </div>
+  <div class="swiper seedlingsSwiper pb-2"><div class="swiper-wrapper" id="seedlingsCarousel"></div>
+    <div class="swiper-button-prev seedlings-prev !hidden lg:!flex"></div><div class="swiper-button-next seedlings-next !hidden lg:!flex"></div>
+  </div>
+</section>
+
+<!-- HERBS CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Fresh Herbs" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="herbs_title">Fresh Herbs</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="herbs_sub">Hand-harvested, pesticide-free</p></div>
+    <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
+  </div>
+  <div class="swiper herbsSwiper pb-2"><div class="swiper-wrapper" id="herbsCarousel"></div>
+    <div class="swiper-button-prev herbs-prev !hidden lg:!flex"></div><div class="swiper-button-next herbs-next !hidden lg:!flex"></div>
+  </div>
+</section>
+
+<!-- SPICES CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Spices & Supplements" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="spices_title">Spices & Supplements</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="spices_sub">Pure blended spices for everyday health</p></div>
+    <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
+  </div>
+  <div class="swiper spicesSwiper pb-2"><div class="swiper-wrapper" id="spicesCarousel"></div>
+    <div class="swiper-button-prev spices-prev !hidden lg:!flex"></div><div class="swiper-button-next spices-next !hidden lg:!flex"></div>
+  </div>
+</section>
+
+<!-- KEFIR CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Kefir & Kombucha" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="kefir_title">Kefir & Kombucha</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="kefir_sub">Live culture probiotics made fresh weekly</p></div>
+    <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
+  </div>
+  <div class="swiper kefirSwiper pb-2"><div class="swiper-wrapper" id="kefirCarousel"></div>
+    <div class="swiper-button-prev kefir-prev !hidden lg:!flex"></div><div class="swiper-button-next kefir-next !hidden lg:!flex"></div>
+  </div>
+</section>
+
+<!-- FLASH SALE -->
+<section id="flash-sale" class="px-4 lg:px-6 mt-8 lg:mt-10" data-reveal>
+  <div class="bg-gradient-to-r from-flash via-red-500 to-accent rounded-2xl p-5 lg:p-8 text-white">
+    <div class="flex items-center justify-between mb-4">
+      <div><h2 class="font-display font-bold text-lg lg:text-xl" data-i18n="flash_title">Flash Sale</h2><p class="text-white/80 text-sm" data-i18n="flash_sub">Limited time offers on popular items</p></div>
+      <div id="flashCountdown" class="flex gap-1.5">
+        <div class="bg-white/20 backdrop-blur-sm rounded-lg px-2.5 py-1.5 text-center min-w-[44px]"><span id="flashHours" class="font-display font-bold text-lg block leading-none">08</span><span class="text-[10px] text-white/70 uppercase">Hrs</span></div>
+        <span class="text-lg font-bold self-start mt-1">:</span>
+        <div class="bg-white/20 backdrop-blur-sm rounded-lg px-2.5 py-1.5 text-center min-w-[44px]"><span id="flashMins" class="font-display font-bold text-lg block leading-none">45</span><span class="text-[10px] text-white/70 uppercase">Min</span></div>
+        <span class="text-lg font-bold self-start mt-1">:</span>
+        <div class="bg-white/20 backdrop-blur-sm rounded-lg px-2.5 py-1.5 text-center min-w-[44px]"><span id="flashSecs" class="font-display font-bold text-lg block leading-none">20</span><span class="text-[10px] text-white/70 uppercase">Sec</span></div>
+      </div>
+    </div>
+    <div class="swiper flashSwiper pb-2"><div class="swiper-wrapper" id="flashCarousel"></div></div>
+  </div>
+</section>
+
+<!-- ALL PRODUCTS -->
+<section id="products" class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="All products" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="all_products">All Products</h2>
+    <span id="productCount" class="text-xs text-paragraph"></span>
+  </div>
+  <div class="flex gap-2 mb-3 flex-wrap">
+    <button class="tab-btn active bg-primary text-white border-primary text-sm font-semibold px-4 py-2 rounded-full transition haptic" onclick="App.Products.filter('all',this)" data-i18n="filter_all">All Products</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('seedlings',this)" data-i18n="filter_seedlings">Seedlings</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('herbs',this)" data-i18n="filter_herbs">Fresh Herbs</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('spices',this)" data-i18n="filter_spices">Spices & Supplements</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('kefir',this)" data-i18n="filter_kefir">Kefir & Kombucha</button>
+  </div>
+  <div class="flex items-center gap-3 mb-4 flex-wrap">
+    <select onchange="App.Products.sort(this.value)" class="bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm text-heading focus:outline-none focus:border-primary">
+      <option value="popular" data-i18n="sort_popular">Popular</option>
+      <option value="price_low" data-i18n="sort_price_low">Price: Low→High</option>
+      <option value="price_high" data-i18n="sort_price_high">Price: High→Low</option>
+      <option value="rating" data-i18n="sort_rating">Top Rated</option>
+      <option value="newest" data-i18n="sort_newest">Newest</option>
+    </select>
+    <div class="flex gap-1.5">
+      <button class="price-filter-btn bg-gray-100 text-paragraph text-xs font-medium px-3 py-1.5 rounded-full hover:bg-primary hover:text-white transition haptic" onclick="App.Products.filterPrice('under2000')" data-i18n="price_under2000">Under KSh 2,000</button>
+      <button class="price-filter-btn bg-gray-100 text-paragraph text-xs font-medium px-3 py-1.5 rounded-full hover:bg-primary hover:text-white transition haptic" onclick="App.Products.filterPrice('2000_3500')" data-i18n="price_2000_3500">KSh 2,000-3,500</button>
+      <button class="price-filter-btn bg-gray-100 text-paragraph text-xs font-medium px-3 py-1.5 rounded-full hover:bg-primary hover:text-white transition haptic" onclick="App.Products.filterPrice('over3500')" data-i18n="price_over3500">KSh 3,500+</button>
+    </div>
+  </div>
+  <div id="searchEmpty" class="hidden text-center py-12">
+    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+    <p class="text-gray-500 font-medium mb-1" data-i18n="search_empty">No products found</p>
+    <p class="text-gray-400 text-sm mb-4" data-i18n="search_empty_sub">Try a different search term</p>
+    <button onclick="App.Search.clear()" class="bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-primary-dark transition haptic" data-i18n="search_clear">Clear Search</button>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5" id="product-grid"></div>
+</section>
+
+<!-- NUTRITION -->
+<section id="nutrition" class="px-4 lg:px-6 mt-8 lg:mt-10" data-reveal>
+  <div class="text-center mb-6">
+    <h2 class="font-display font-bold text-heading text-xl lg:text-2xl" data-i18n="nutrition_title">Your Personal Wellness Plan</h2>
+    <p class="text-paragraph text-sm mt-1 max-w-lg mx-auto" data-i18n="nutrition_sub">Evidence-based nutrition guidance tailored to your body, lifestyle, and Kenyan food culture.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-2xl mb-3">🔥</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_weightloss">Weight Loss Plan</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_weightloss_desc">Personalized calorie-controlled meal plans using locally available foods.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Weight%20Loss%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-2xl mb-3">🛡️</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_immunity">Immunity Boost Plan</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_immunity_desc">Strengthen your immune system with targeted nutrition and herbal supplements.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Immunity%20Boost%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-2xl mb-3">🩺</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_diabetes">Diabetes Management</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_diabetes_desc">Blood sugar-friendly meal plans with low-GI foods and herbal support.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Diabetes%20Management%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center text-2xl mb-3">❤️</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_heart">Heart Health Plan</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_heart_desc">Cardio-protective nutrition rich in omega-3s, fiber, and antioxidants.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Heart%20Health%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-2xl mb-3">🤰</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_pregnancy">Pregnancy Nutrition</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_pregnancy_desc">Safe, nutrient-dense plans for expectant and nursing mothers.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Pregnancy%20Nutrition%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 haptic"><div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center text-2xl mb-3">⚡</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="diet_sports">Sports Performance</h3><p class="text-paragraph text-xs mb-3" data-i18n="diet_sports_desc">High-protein, energy-optimized plans for athletes and active lifestyles.</p><a href="https://wa.me/254741090659?text=Hello!%20I%27m%20interested%20in%20the%20Sports%20Performance%20Plan" class="text-primary text-xs font-semibold hover:underline" data-i18n="get_started">Get Started →</a></div>
+  </div>
+  <div class="mt-6 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-4" data-reveal>
+    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl shrink-0">🧑‍⚕️</div>
+    <div class="text-center sm:text-left flex-1"><h3 class="font-display font-bold text-heading" data-i18n="consult_title">Nutrition Consulting</h3><p class="text-paragraph text-sm" data-i18n="consult_desc">Book a one-on-one session with our certified nutritionist for personalized wellness guidance.</p></div>
+    <a href="https://wa.me/254741090659?text=Hello!%20I%27d%20like%20to%20book%20a%20nutrition%20consultation." class="bg-primary text-white text-sm font-bold px-6 py-3 rounded-full hover:bg-primary-dark transition shrink-0 haptic" data-i18n="consult_btn">Book Consultation</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="px-4 lg:px-6 mt-8 lg:mt-10" data-reveal>
+  <div class="text-center mb-6">
+    <h2 class="font-display font-bold text-heading text-xl lg:text-2xl" data-i18n="about_title">About U-NiceNutraCare</h2>
+    <p class="text-paragraph text-sm mt-1 max-w-lg mx-auto" data-i18n="about_sub">Nairobi's trusted natural wellness shop, committed to organic products and community health.</p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 text-center"><div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">🎯</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="about_mission">Our Mission</h3><p class="text-paragraph text-xs" data-i18n="about_mission_desc">To make natural wellness accessible to every Kenyan household through affordable, certified organic products.</p></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 text-center"><div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">✅</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="about_quality">Quality First</h3><p class="text-paragraph text-xs" data-i18n="about_quality_desc">Every product is tested and certified. We partner with local farmers who share our commitment to organic practices.</p></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50 text-center"><div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">🤝</div><h3 class="font-display font-bold text-heading text-sm mb-1" data-i18n="about_community">Community Impact</h3><p class="text-paragraph text-xs" data-i18n="about_community_desc">Supporting local farmers and sustainable agriculture while promoting health education across communities.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" data-reveal>
+  <div class="text-center mb-6">
+    <h2 class="font-display font-bold text-heading text-xl lg:text-2xl" data-i18n="testimonial_title">What Our Customers Say</h2>
+    <p class="text-paragraph text-sm mt-1" data-i18n="testimonial_sub">Real reviews from our valued customers</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👩</div><div><p class="font-semibold text-heading text-sm">Wanjiku M.</p><p class="text-paragraph text-xs">Nairobi</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_1">"The moringa powder has transformed my energy levels. I feel more vibrant and healthy than ever!"</p></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👨</div><div><p class="font-semibold text-heading text-sm">Otieno K.</p><p class="text-paragraph text-xs">Kisumu</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_2">"Fast delivery and excellent quality seedlings. My kitchen garden is thriving thanks to U-NiceNutraCare!"</p></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👩</div><div><p class="font-semibold text-heading text-sm">Amina H.</p><p class="text-paragraph text-xs">Mombasa</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_3">"The nutrition consulting service is world-class. Personalized plans that actually work with Kenyan foods."</p></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="px-4 lg:px-6 mt-8 lg:mt-10" data-reveal>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div>
+      <h2 class="font-display font-bold text-heading text-xl lg:text-2xl mb-2" data-i18n="contact_title">Get In Touch</h2>
+      <p class="text-paragraph text-sm mb-6" data-i18n="contact_sub">Have questions? Reach out via WhatsApp, phone, or fill the form.</p>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><span class="text-lg">📱</span></div><div><p class="text-heading text-sm font-semibold">+254 741 090 659</p><p class="text-paragraph text-xs">WhatsApp & Phone</p></div></div>
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><span class="text-lg">📧</span></div><div><p class="text-heading text-sm font-semibold">unicenutracare@gmail.com</p><p class="text-paragraph text-xs">Email us anytime</p></div></div>
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><span class="text-lg">📍</span></div><div><p class="text-heading text-sm font-semibold">Nairobi, Kenya</p><p class="text-paragraph text-xs">Visit our shop</p></div></div>
+        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><span class="text-lg">🕐</span></div><div><p class="text-heading text-sm font-semibold" data-i18n="contact_hours">Mon–Sat: 8am – 6pm</p><p class="text-paragraph text-xs" data-i18n="contact_hours_sub">Closed on Sundays</p></div></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50">
+      <h3 class="font-display font-bold text-heading text-sm mb-4" data-i18n="contact_form_title">Send a Message</h3>
+      <form id="contactForm" onsubmit="App.UI.submitContact(event)" class="space-y-3">
+        <input type="text" required data-i18n-placeholder="contact_name" placeholder="Your Name" class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+        <input type="tel" required pattern="[0-9+\s\-]{10,}" data-i18n-placeholder="contact_phone" placeholder="Phone Number" class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+        <select required class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading focus:outline-none focus:border-primary transition">
+          <option value="" data-i18n="contact_interest_default">I'm interested in...</option>
+          <option value="Seedlings" data-i18n="cat_seedlings">Seedlings</option>
+          <option value="Fresh Herbs" data-i18n="cat_herbs">Fresh Herbs</option>
+          <option value="Spices & Supplements" data-i18n="cat_spices">Spices & Supplements</option>
+          <option value="Kefir & Kombucha" data-i18n="cat_kefir">Kefir & Kombucha</option>
+          <option value="Diet Plans" data-i18n="cat_diet">Diet Plans</option>
+          <option value="Nutrition Consulting" data-i18n="cat_consult">Consulting</option>
+        </select>
+        <textarea required rows="3" data-i18n-placeholder="contact_message" placeholder="Your Message" class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition resize-none"></textarea>
+        <button type="submit" class="w-full bg-primary text-white font-bold text-sm py-3.5 rounded-full hover:bg-primary-dark transition haptic" data-i18n="contact_submit">Send Message via WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- RECENTLY VIEWED -->
+<section id="recentlyViewedSection" class="px-4 lg:px-6 mt-8 lg:mt-10 hidden" aria-label="Recently viewed products">
+  <h2 class="font-display font-bold text-heading text-lg lg:text-xl mb-4" data-i18n="recently_viewed">Recently Viewed</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="recentlyViewedGrid"></div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Blog & wellness tips" data-reveal>
+  <div class="flex items-center justify-between mb-4">
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="blog_title">Wellness Tips & Blog</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="blog_sub">Expert advice for your natural health journey</p></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="blogGrid"></div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10 reveal">
+  <div class="bg-gradient-to-br from-heading via-primary-dark to-primary rounded-2xl p-6 lg:p-10 text-white text-center relative overflow-hidden">
+    <div class="relative z-10 max-w-xl mx-auto">
+      <span class="inline-block bg-white/20 backdrop-blur-sm text-xs font-semibold px-4 py-1.5 rounded-full mb-4 tracking-wide uppercase" data-i18n="newsletter_tag">Join Our Community</span>
+      <h2 class="font-display font-bold text-2xl lg:text-3xl mb-3" data-i18n="newsletter_title">Get Wellness Tips &<br><span class="text-secondary-light">Exclusive Offers</span></h2>
+      <p class="text-white/70 text-sm mb-6" data-i18n="newsletter_sub">Subscribe for nutrition advice, new product alerts, and special discounts delivered to your inbox.</p>
+      <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" data-i18n-placeholder="newsletter_placeholder" placeholder="Enter your email" class="flex-1 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full px-5 py-3 text-sm text-white placeholder-white/50 focus:outline-none focus:border-white/50 focus:bg-white/20 transition" required>
+        <button type="submit" class="bg-secondary hover:bg-secondary-light text-heading font-bold text-sm px-6 py-3 rounded-full transition-colors whitespace-nowrap haptic" data-i18n="newsletter_btn">Subscribe Now</button>
+      </form>
+      <p id="newsletterMsg" class="hidden text-secondary-light text-sm font-semibold mt-2">Thank you for subscribing!</p>
+      <p class="text-white/40 text-xs mt-4" data-i18n="newsletter_note">No spam, unsubscribe anytime. Join 2,000+ subscribers.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- DESKTOP FOOTER -->
+<footer class="hidden lg:block bg-heading text-white/60 mt-8" aria-label="Footer">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4"><div class="logo-box w-9 h-9 bg-primary rounded-xl flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path class="logo-stem" d="M12 22 C12 16, 14 10, 12 4" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/><path class="logo-leaf-main" d="M12 4 C8 6, 4 10, 6 14 C8 18, 12 16, 12 12 C12 8, 16 6, 12 4Z" fill="rgba(255,255,255,0.95)"/><path class="logo-leaf-small" d="M12 8 C14 9, 17 11, 16 14 C15 16, 12 15, 12 12 C12 10, 10 9, 12 8Z" fill="rgba(255,255,255,0.7)"/></svg></div><div><span class="font-display font-bold text-white text-lg block leading-tight">U-NiceNutraCare</span><span class="text-[10px] tracking-wider uppercase text-white/40" data-i18n="tagline">Natural Wellness</span></div></div>
+        <p class="text-sm leading-relaxed mb-4" data-i18n="footer_desc">Nairobi's trusted natural wellness shop. Fresh seedlings, medicinal herbs, spices, kefir, kombucha & nutrition consulting.</p>
+        <div class="flex gap-2">
+          <a href="https://facebook.com/unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><span class="text-sm">f</span></a>
+          <a href="https://instagram.com/unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><span class="text-sm">ig</span></a>
+          <a href="https://twitter.com/unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><span class="text-sm">x</span></a>
+          <a href="https://youtube.com/@unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><span class="text-sm">yt</span></a>
+        </div>
+      </div>
+      <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_quick_links">Quick Links</h4><ul class="space-y-2 text-sm"><li><a href="#products" class="hover:text-primary-light transition" data-i18n="nav_products">Products</a></li><li><a href="#flash-sale" class="hover:text-primary-light transition" data-i18n="nav_flash">Flash Sale</a></li><li><a href="#nutrition" class="hover:text-primary-light transition" data-i18n="nav_nutrition">Diet Plans</a></li><li><a href="https://u-nice-nutracare-kenya-926et7e6.durable.site/" onclick="window.location.href='https://u-nice-nutracare-kenya-926et7e6.durable.site/'; return false;" class="hover:text-primary-light transition" data-i18n="nav_about">About Us</a></li><li><a href="#contact" class="hover:text-primary-light transition" data-i18n="nav_contact">Contact</a></li></ul></div>
+      <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_categories">Categories</h4><ul class="space-y-2 text-sm"><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_seedlings">Seedlings</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_herbs">Fresh Herbs</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_spices">Spices & Supplements</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_kefir">Kefir & Kombucha</a></li><li><a href="#nutrition" class="hover:text-primary-light transition" data-i18n="cat_consult">Nutrition Consulting</a></li></ul></div>
+      <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_contact">Contact</h4><ul class="space-y-2.5 text-sm"><li class="flex items-start gap-2"><span>📱</span><span>+254 741 090 659</span></li><li class="flex items-start gap-2"><span>📧</span><span>unicenutracare@gmail.com</span></li><li class="flex items-start gap-2"><span>📍</span><span>Nairobi, Kenya</span></li><li class="flex items-start gap-2"><span>🕐</span><span data-i18n="contact_hours">Mon–Sat: 8am – 6pm</span></li></ul></div>
+    </div>
+    <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-2 text-xs text-white/40"><span data-i18n="footer_payment">We accept:</span><span class="bg-white/10 px-2 py-1 rounded font-medium">M-Pesa</span><span class="bg-white/10 px-2 py-1 rounded font-medium">Visa</span><span class="bg-white/10 px-2 py-1 rounded font-medium">Cash on Delivery</span></div>
+      <div class="flex items-center gap-4 text-xs"><span>© 2026 U-NiceNutraCare, Nairobi. All rights reserved.</span><div class="flex gap-4"><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a><a href="terms.html" class="hover:text-white transition">Terms of Service</a></div></div>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-40 bg-white shadow-widget border-t border-gray-100 h-16 items-center justify-around px-2" aria-label="Mobile navigation">
+  <a href="#home" class="flex flex-col items-center gap-0.5 py-1 px-3 text-primary"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="text-[10px] font-semibold" data-i18n="nav_home">Home</span></a>
+  <a href="#categories" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span class="text-[10px] font-medium" data-i18n="nav_categories">Categories</span></a>
+  <a href="#products" onclick="event.preventDefault();App.Cart.open()" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2z"/></svg><span class="text-[10px] font-medium">Cart</span></a>
+  <a href="#" onclick="event.preventDefault();App.Wishlist.open()" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg><span class="text-[10px] font-medium">Wishlist</span></a>
+  <a href="#" onclick="event.preventDefault();App.Account.open()" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span class="text-[10px] font-medium">Account</span></a>
+</div>
+
+<!-- WHATSAPP FAB -->
+<a href="https://wa.me/254741090659" class="fixed bottom-24 lg:bottom-6 right-4 z-50 w-14 h-14 bg-[#25d366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+  <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-24 lg:bottom-6 left-4 z-50 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all haptic" aria-label="Back to top"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg></button>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div id="productDetailModal" class="fixed inset-0 z-50 transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="Product details">
+  <div class="absolute inset-0 bg-black/50" onclick="App.Products.closeDetail()"></div>
+  <div class="absolute inset-y-0 left-0 w-full max-w-lg bg-white shadow-2xl overflow-y-auto"><div id="productDetailBody"></div></div>
+</div>
+
+<!-- WISHLIST PANEL -->
+<div id="wishlistPanel" class="fixed inset-0 z-50 transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="Wishlist">
+  <div class="absolute inset-0 bg-black/40" onclick="App.Wishlist.close()"></div>
+  <div class="absolute left-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+      <div class="flex items-center gap-2"><svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><h2 class="font-display font-bold text-heading text-lg" data-i18n="wishlist_title">My Wishlist</h2></div>
+      <button onclick="App.Wishlist.close()" class="p-2 rounded-lg hover:bg-gray-100 transition haptic" aria-label="Close wishlist"><svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div id="wishlistBody" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  </div>
+</div>
+
+<!-- ACCOUNT PANEL -->
+<div id="accountPanel" class="fixed inset-0 z-50 transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="My Account">
+  <div class="absolute inset-0 bg-black/40" onclick="App.Account.close()"></div>
+  <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+      <div class="flex items-center gap-2"><svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><h2 class="font-display font-bold text-heading text-lg" data-i18n="account_title">My Account</h2></div>
+      <button onclick="App.Account.close()" class="p-2 rounded-lg hover:bg-gray-100 transition haptic" aria-label="Close account"><svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div id="accountBody" class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div class="bg-gray-50 rounded-xl p-4">
+        <h3 class="font-semibold text-heading text-sm mb-3" data-i18n="account_profile">Personal Information</h3>
+        <div class="space-y-3">
+          <input type="text" id="accountName" data-i18n-placeholder="account_name" placeholder="Full Name" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+          <input type="tel" id="accountPhone" data-i18n-placeholder="account_phone" placeholder="Phone Number" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+          <input type="email" id="accountEmail" data-i18n-placeholder="account_email" placeholder="Email Address" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+          <input type="text" id="accountAddress" data-i18n-placeholder="account_address" placeholder="Delivery Address" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
+          <button onclick="App.Account.save()" class="w-full bg-primary text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-primary-dark transition haptic" data-i18n="account_save">Save Profile</button>
+          <p id="accountMsg" class="hidden text-xs"></p>
+        </div>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-4">
+        <h3 class="font-semibold text-heading text-sm mb-3" data-i18n="account_history">Order History</h3>
+        <div id="orderHistoryList" class="text-sm text-paragraph text-center py-4" data-i18n="account_no_orders">No orders yet. Start shopping!</div>
+      </div>
+      <button onclick="App.Account.clear()" class="w-full text-red-500 text-xs font-medium py-2 hover:text-red-600 transition" data-i18n="account_clear">Clear Saved Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- BLOG MODAL -->
+<div id="blogModal" class="fixed inset-0 z-50 transition-transform duration-300 -translate-x-full" role="dialog" aria-modal="true" aria-label="Blog article">
+  <div class="absolute inset-0 bg-black/50" onclick="App.Blog.closeModal()"></div>
+  <div class="absolute inset-y-0 left-0 w-full max-w-lg bg-white shadow-2xl overflow-y-auto">
+    <div class="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
+      <h3 class="font-display font-bold text-heading" data-i18n="blog_article">Article</h3>
+      <button onclick="App.Blog.closeModal()" class="p-2 rounded-lg hover:bg-gray-100 transition haptic" aria-label="Close article"><svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div id="blogModalBody" class="p-4"></div>
+  </div>
+</div>
+
+<!-- PWA BANNER -->
+<div id="pwaBanner" class="fixed bottom-24 lg:bottom-6 left-4 right-4 lg:left-auto lg:right-20 z-40 bg-heading text-white rounded-2xl p-4 shadow-2xl flex items-center gap-3 hidden">
+  <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shrink-0"><span class="text-2xl">🌿</span></div>
+  <div class="flex-1 min-w-0"><p class="font-semibold text-sm" data-i18n="pwa_title">Install U-NiceNutraCare</p><p class="text-white/60 text-xs" data-i18n="pwa_sub">Add to home screen for faster shopping</p></div>
+  <div class="flex gap-2 shrink-0">
+    <button onclick="App.PWA.install()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-primary-dark transition haptic" data-i18n="pwa_install_btn">Install</button>
+    <button onclick="App.PWA.dismiss()" class="text-white/40 text-xs px-2 hover:text-white transition">✕</button>
+  </div>
+</div>
+
+<!-- NOTIFICATION BANNER -->
+<div id="notifBanner" class="fixed bottom-24 lg:bottom-6 left-4 right-4 lg:left-auto lg:right-20 z-40 bg-white border border-gray-200 text-heading rounded-2xl p-4 shadow-2xl flex items-center gap-3 hidden" style="margin-bottom:80px">
+  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
+  <div class="flex-1 min-w-0"><p class="font-semibold text-sm" data-i18n="notif_title">Stay Updated!</p><p class="text-paragraph text-xs" data-i18n="notif_sub">Get notified about flash sales & new arrivals</p></div>
+  <div class="flex gap-2 shrink-0">
+    <button onclick="App.PWA.requestNotif()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-primary-dark transition haptic" data-i18n="notif_enable">Enable</button>
+    <button onclick="App.PWA.dismissNotif()" class="text-paragraph text-xs px-2 hover:text-heading transition">✕</button>
+  </div>
+</div>
+
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" class="fixed bottom-24 lg:bottom-6 left-4 right-4 lg:left-6 lg:right-auto z-40 bg-white border border-gray-200 rounded-2xl p-4 shadow-2xl hidden max-w-md">
+  <p class="text-sm text-paragraph mb-3" data-i18n="cookie_text">We use cookies to improve your experience. By continuing, you agree to our use of cookies.</p>
+  <div class="flex gap-2">
+    <button onclick="document.getElementById('cookieBanner').classList.add('hidden')" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-primary-dark transition haptic" data-i18n="cookie_accept">Accept</button>
+    <a href="privacy.html" class="text-paragraph text-xs font-medium px-4 py-2 hover:text-primary transition" data-i18n="cookie_learn">Learn More</a>
+  </div>
+</div>
+
+<!-- ORDER CONFIRMATION MODAL -->
+<div id="orderConfirmModal" class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+  <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
+    <h3 class="font-display font-bold text-heading text-xl mb-2">Order Confirmed!</h3>
+    <p class="text-paragraph text-sm mb-4">Your order has been placed successfully. We'll contact you on WhatsApp to confirm.</p>
+    <div class="bg-gray-50 rounded-xl p-4 mb-4 space-y-2">
+      <div class="flex justify-between text-sm"><span class="text-paragraph">Order ID:</span><span id="orderConfirmId" class="font-bold text-heading">UNC0001</span></div>
+      <div class="flex justify-between text-sm"><span class="text-paragraph">Date:</span><span id="orderConfirmDate" class="text-heading"></span></div>
+      <div class="flex justify-between text-sm"><span class="text-paragraph">Total:</span><span id="orderConfirmTotal" class="font-bold text-primary">KSh 0</span></div>
+    </div>
+    <p class="text-xs text-paragraph mb-4">Track your order in <strong>My Account → Order History</strong></p>
+    <button onclick="App.Cart.closeOrderConfirm()" class="w-full bg-primary text-white font-bold text-sm py-3 rounded-full hover:bg-primary-dark transition haptic">Done</button>
+  </div>
+</div>
+
+<!-- PAYMENT STATUS MODAL -->
+<div id="paymentModal" class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+    <div id="paymentModalIcon" class="mb-4"></div>
+    <h3 id="paymentModalTitle" class="font-display font-bold text-heading text-xl mb-2"></h3>
+    <p id="paymentModalDesc" class="text-paragraph text-sm mb-4"></p>
+    <div id="paymentModalDetails" class="mb-4"></div>
+    <div id="paymentModalActions"></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toastStack" class="toast-stack"></div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
+<script>
+if('serviceWorker' in navigator&&!sessionStorage.getItem('swFix')){sessionStorage.setItem('swFix','1');Promise.all([navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(reg){reg.unregister()})}),caches.keys().then(function(k){return Promise.all(k.map(function(n){caches.delete(n)}))})]).then(function(){location.reload()})}
+</script>
+<script src="app.js?v=9"></script>
+</body>
+</html>

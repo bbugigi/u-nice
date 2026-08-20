@@ -1,0 +1,17 @@
+name = "unicenutra-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# ===== D1 Database Binding =====
+[[d1_databases]]
+binding = "DB"
+database_name = "unicenutra-db"
+database_id = "44fd5f35-a910-42b6-bcc4-78e061d83fb0"
+
+# ===== Secrets (set via: wrangler secret put VARIABLE_NAME) =====
+# PAYSTACK_SECRET_KEY   — from https://dashboard.paystack.com/apikeys
+# JWT_SECRET            — generate with: openssl rand -hex 32
+
+[vars]
+WORKER_URL = "https://unicenutra-api.fomstreet-ke.workers.dev"
+PAYSTACK_PUBLIC_KEY = "pk_live_6538b5309e18581e82916e68ed49a3d24c5c42d4"
