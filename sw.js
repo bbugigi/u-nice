@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const STATIC_CACHE = `unicenutra-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `unicenutra-dynamic-${CACHE_VERSION}`;
 const IMAGE_CACHE = `unicenutra-images-${CACHE_VERSION}`;
@@ -8,27 +8,7 @@ const PRECACHE_URLS = [
   '/index.html',
   '/manifest.json',
   '/privacy.html',
-  '/terms.html',
-  '/assets/products/01-omega3-fish-oil.webp',
-  '/assets/products/02-aged-garlic-extract.webp',
-  '/assets/products/03-blood-circulation-flow.webp',
-  '/assets/products/04-dried-hawthorn-berries.webp',
-  '/assets/products/05-nac.webp',
-  '/assets/products/06-fresh-moringa.webp',
-  '/assets/products/07-rosemary-bundle.avif',
-  '/assets/products/08-tulsi-holy-basil.webp',
-  '/assets/products/09-fresh-mint.webp',
-  '/assets/products/10-lemongrass-bundle.webp',
-  '/assets/products/11-turmeric-spice-blend.webp',
-  '/assets/products/12-ginger-spice-blend.webp',
-  '/assets/products/13-garlic-herb-blend.webp',
-  '/assets/products/14-moringa-spice-mix.webp',
-  '/assets/products/15-custom-wellness-blend.webp',
-  '/assets/products/16-fresh-kefir.webp',
-  '/assets/products/17-flavored-kefir.webp',
-  '/assets/products/18-classic-kombucha.webp',
-  '/assets/products/19-ginger-kombucha.webp',
-  '/assets/products/20-hibiscus-kombucha.webp'
+  '/terms.html'
 ];
 
 const CDN_URLS = [

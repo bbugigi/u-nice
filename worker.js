@@ -301,6 +301,131 @@ async function handleGetProduct(request, env) {
   });
 }
 
+// --- Admin ---
+async function handleAdminLogin(request, env) {
+  const body = await request.json();
+  if (!body.password || body.password !== env.ADMIN_PASSWORD) {
+    return errorResponse('Invalid admin password', 401);
+  }
+  const token = await createJWT({ role: 'admin' }, env.JWT_SECRET, 86400 * 30);
+  return jsonResponse({ success: true, token });
+}
+
+async function requireAdmin(request, env) {
+  const payload = await getUserFromRequest(request, env);
+  return payload && payload.role === 'admin' ? payload : null;
+}
+
+const ADMIN_PRODUCT_FIELDS = [
+  'name_en', 'name_sw', 'name_fr',
+  'category', 'price', 'original_price',
+  'unit_en', 'unit_sw', 'unit_fr',
+  'image_url', 'stock', 'badges',
+  'desc_en', 'desc_sw', 'desc_fr',
+  'benefits_en', 'benefits_sw', 'benefits_fr',
+  'sort_order', 'is_active',
+];
+
+async function handleAdminGetProducts(request, env) {
+  const { results } = await env.DB.prepare(
+    'SELECT * FROM products ORDER BY sort_order ASC, id ASC'
+  ).all();
+  return jsonResponse({
+    products: results.map(p => ({
+      ...p,
+      badges: JSON.parse(p.badges || '[]'),
+      benefits_en: JSON.parse(p.benefits_en || '[]'),
+      benefits_sw: JSON.parse(p.benefits_sw || '[]'),
+      benefits_fr: JSON.parse(p.benefits_fr || '[]'),
+    })),
+  });
+}
+
+async function handleAdminCreateProduct(request, env) {
+  const body = await request.json();
+  if (!body.name_en || !body.category) return errorResponse('Name and category are required');
+
+  const maxRow = await env.DB.prepare('SELECT COALESCE(MAX(sort_order), 0) as m FROM products').first();
+  const product = {
+    name_en: String(body.name_en).slice(0, 200),
+    name_sw: String(body.name_sw || '').slice(0, 200),
+    name_fr: String(body.name_fr || '').slice(0, 200),
+    category: String(body.category || 'supplements'),
+    price: Math.max(0, parseInt(body.price) || 0),
+    original_price: body.original_price ? parseInt(body.original_price) : null,
+    unit_en: String(body.unit_en || ''),
+    unit_sw: String(body.unit_sw || ''),
+    unit_fr: String(body.unit_fr || ''),
+    image_url: String(body.image_url || ''),
+    stock: Math.max(0, parseInt(body.stock) || 0),
+    badges: JSON.stringify(Array.isArray(body.badges) ? body.badges : []),
+    desc_en: String(body.desc_en || ''),
+    desc_sw: String(body.desc_sw || ''),
+    desc_fr: String(body.desc_fr || ''),
+    benefits_en: JSON.stringify(Array.isArray(body.benefits_en) ? body.benefits_en : []),
+    benefits_sw: JSON.stringify(Array.isArray(body.benefits_sw) ? body.benefits_sw : []),
+    benefits_fr: JSON.stringify(Array.isArray(body.benefits_fr) ? body.benefits_fr : []),
+    sort_order: parseInt(body.sort_order) || (maxRow?.m || 0) + 1,
+    is_active: body.is_active === 0 || body.is_active === false ? 0 : 1,
+  };
+
+  const result = await env.DB.prepare(
+    `INSERT INTO products (name_en, name_sw, name_fr, category, price, original_price,
+      unit_en, unit_sw, unit_fr, image_url, stock, badges,
+      desc_en, desc_sw, desc_fr, benefits_en, benefits_sw, benefits_fr, sort_order, is_active)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(
+    product.name_en, product.name_sw, product.name_fr, product.category,
+    product.price, product.original_price, product.unit_en, product.unit_sw, product.unit_fr,
+    product.image_url, product.stock, product.badges,
+    product.desc_en, product.desc_sw, product.desc_fr,
+    product.benefits_en, product.benefits_sw, product.benefits_fr,
+    product.sort_order, product.is_active
+  ).run();
+
+  return jsonResponse({ success: true, id: result.meta.last_row_id }, 201);
+}
+
+async function handleAdminUpdateProduct(request, env) {
+  const url = new URL(request.url);
+  const id = url.pathname.split('/').pop();
+  const body = await request.json();
+
+  const updates = [];
+  const params = [];
+  for (const field of ADMIN_PRODUCT_FIELDS) {
+    if (!(field in body)) continue;
+    let value = body[field];
+    if (field === 'badges' || field.startsWith('benefits_')) {
+      value = JSON.stringify(Array.isArray(value) ? value : []);
+    } else if (field === 'original_price') {
+      value = value ? parseInt(value) : null;
+    } else if (['price', 'stock', 'sort_order'].includes(field)) {
+      value = Math.max(0, parseInt(value) || 0);
+    } else if (field === 'is_active') {
+      value = value === 0 || value === false ? 0 : 1;
+    }
+    updates.push(`${field} = ?`);
+    params.push(value);
+  }
+
+  if (updates.length === 0) return errorResponse('No valid fields to update');
+
+  params.push(id);
+  await env.DB.prepare(`UPDATE products SET ${updates.join(', ')} WHERE id = ?`).bind(...params).run();
+
+  return jsonResponse({ success: true });
+}
+
+async function handleAdminDeleteProduct(request, env) {
+  const url = new URL(request.url);
+  const id = url.pathname.split('/').pop();
+  await env.DB.prepare('DELETE FROM reviews WHERE product_id = ?').bind(id).run();
+  await env.DB.prepare('DELETE FROM flash_sales WHERE product_id = ?').bind(id).run();
+  await env.DB.prepare('DELETE FROM products WHERE id = ?').bind(id).run();
+  return jsonResponse({ success: true });
+}
+
 // --- Auth ---
 async function handleRegister(request, env) {
   const body = await request.json();
@@ -670,6 +795,24 @@ export default {
         response = await handleGetProducts(request, env);
       } else if (path.match(/^\/api\/products\/\d+$/) && request.method === 'GET') {
         response = await handleGetProduct(request, env);
+      }
+
+      // Admin
+      else if (path === '/api/admin/login' && request.method === 'POST') {
+        response = await handleAdminLogin(request, env);
+      } else if (path.startsWith('/api/admin/')) {
+        const admin = await requireAdmin(request, env);
+        if (!admin) {
+          response = errorResponse('Unauthorized', 401);
+        } else if (path === '/api/admin/products' && request.method === 'GET') {
+          response = await handleAdminGetProducts(request, env);
+        } else if (path === '/api/admin/products' && request.method === 'POST') {
+          response = await handleAdminCreateProduct(request, env);
+        } else if (path.match(/^\/api\/admin\/products\/\d+$/) && request.method === 'PUT') {
+          response = await handleAdminUpdateProduct(request, env);
+        } else if (path.match(/^\/api\/admin\/products\/\d+$/) && request.method === 'DELETE') {
+          response = await handleAdminDeleteProduct(request, env);
+        }
       }
 
       // Auth

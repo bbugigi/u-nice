@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>U-NiceNutraCare — Natural Wellness Shop | Nairobi, Kenya</title>
-<meta name="description" content="U-NiceNutraCare is Nairobi's trusted natural wellness shop. Fresh seedlings, medicinal herbs, spices, kefir, kombucha & nutrition consulting. Organic products delivered across Kenya.">
-<meta name="keywords" content="seedlings Kenya, medicinal herbs Nairobi, moringa powder, turmeric supplements, kefir Kenya, kombucha Nairobi, organic herbs, natural wellness Kenya, nutrition consulting Nairobi">
+<meta name="description" content="U-NiceNutraCare is Nairobi's trusted natural wellness shop. Supplements, skincare, body care & nutrition consulting. Organic products delivered across Kenya.">
+<meta name="keywords" content="supplements Kenya, skincare Nairobi, collagen Kenya, body care Nairobi, gummies Kenya, fat burner Kenya, CeraVe Kenya, natural wellness Kenya, nutrition consulting Nairobi">
 <meta name="robots" content="index, follow">
 <meta name="author" content="U-NiceNutraCare">
 <link rel="canonical" href="https://unicenutra-care.pages.dev/">
@@ -42,7 +42,7 @@
   </a>
   <div class="flex-1 max-w-xl flex items-center bg-gray-50 rounded-full border border-gray-200 px-4 py-2 transition-all duration-300 focus-within:border-primary focus-within:shadow-sm relative">
     <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search seedlings, herbs, spices, kefir..." class="flex-1 bg-transparent border-none outline-none text-sm ml-3 text-heading placeholder-gray-400" aria-label="Search products">
+    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search supplements, skincare, body care..." class="flex-1 bg-transparent border-none outline-none text-sm ml-3 text-heading placeholder-gray-400" aria-label="Search products">
     <button id="searchClear" class="hidden text-gray-400 hover:text-heading ml-1 haptic" aria-label="Clear search"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
     <div id="searchAutocomplete" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 max-h-80 overflow-y-auto"></div>
   </div>
@@ -169,7 +169,7 @@
           <div class="relative z-10 px-8 lg:px-16 max-w-2xl">
             <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 tracking-wide uppercase" data-i18n="hero_slide1_tag">New Season Collection</span>
             <h1 class="font-display font-extrabold text-white text-2xl sm:text-4xl lg:text-5xl leading-tight mb-3" data-i18n="hero_slide1_title">Fresh Seedlings<br>For Your Garden</h1>
-            <p class="text-white/75 text-sm sm:text-base mb-5 max-w-md hidden sm:block" data-i18n="hero_slide1_sub">Healthy, well-nurtured seedlings ready to transplant. Tomatoes, kale, herbs, and more.</p>
+            <p class="text-white/75 text-sm sm:text-base mb-5 max-w-md hidden sm:block" data-i18n="hero_slide1_sub">Premium collagen powders, gummies, and supplements for beauty from within.</p>
             <a href="#products" class="inline-flex items-center gap-2 bg-white text-primary font-bold text-sm px-6 py-3 rounded-full hover:bg-gray-50 transition shadow-lg haptic" data-i18n="hero_shop">Shop Now<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
           </div>
           <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:flex items-center justify-center opacity-30"><span class="text-[14rem]">🌱</span></div>
@@ -211,24 +211,24 @@
     <a href="#products" class="text-primary text-sm font-semibold hover:underline" data-i18n="view_all">View All →</a>
   </div>
   <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 lg:gap-4">
-    <a href="#products" onclick="App.Products.filter('seedlings',document.querySelector('[onclick*=seedlings]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
-      <div class="w-14 h-14 mx-auto bg-green-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-green-100 transition">🌱</div>
-      <p class="text-sm font-semibold text-heading" data-i18n="cat_seedlings">Seedlings</p>
+    <a href="#products" onclick="App.Products.filter('supplements',document.querySelector('[onclick*=supplements]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-blue-100 transition">💊</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_supplements">Supplements</p>
       <p class="text-xs text-paragraph mt-0.5">5 items</p>
     </a>
-    <a href="#products" onclick="App.Products.filter('herbs',document.querySelector('[onclick*=herbs]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
-      <div class="w-14 h-14 mx-auto bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-emerald-100 transition">🌿</div>
-      <p class="text-sm font-semibold text-heading" data-i18n="cat_herbs">Fresh Herbs</p>
+    <a href="#products" onclick="App.Products.filter('skincare',document.querySelector('[onclick*=skincare]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-purple-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-purple-100 transition">🧴</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_skincare">Skincare</p>
       <p class="text-xs text-paragraph mt-0.5">5 items</p>
     </a>
-    <a href="#products" onclick="App.Products.filter('spices',document.querySelector('[onclick*=spices]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
-      <div class="w-14 h-14 mx-auto bg-amber-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-amber-100 transition">🫚</div>
-      <p class="text-sm font-semibold text-heading" data-i18n="cat_spices">Spices & Supplements</p>
+    <a href="#products" onclick="App.Products.filter('bodycare',document.querySelector('[onclick*=bodycare]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-orange-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-orange-100 transition">🫒</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_bodycare">Body Care</p>
       <p class="text-xs text-paragraph mt-0.5">5 items</p>
     </a>
-    <a href="#products" onclick="App.Products.filter('kefir',document.querySelector('[onclick*=kefir]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
-      <div class="w-14 h-14 mx-auto bg-rose-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-rose-100 transition">🍵</div>
-      <p class="text-sm font-semibold text-heading" data-i18n="cat_kefir">Kefir & Kombucha</p>
+    <a href="#products" onclick="App.Products.filter('wellness',document.querySelector('[onclick*=wellness]'))" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
+      <div class="w-14 h-14 mx-auto bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-2 group-hover:bg-teal-100 transition">🧘</div>
+      <p class="text-sm font-semibold text-heading" data-i18n="cat_wellness">Wellness</p>
       <p class="text-xs text-paragraph mt-0.5">5 items</p>
     </a>
     <a href="#nutrition" class="category-card bg-white rounded-2xl p-4 text-center shadow-card border border-gray-50 cursor-pointer group haptic">
@@ -268,47 +268,47 @@
   </div>
 </section>
 
-<!-- SEEDLINGS CAROUSEL -->
-<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Seedlings" data-reveal>
+<!-- SUPPLEMENTS CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Supplements" data-reveal>
   <div class="flex items-center justify-between mb-4">
-    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="seedlings_title">Fresh Seedlings</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="seedlings_sub">Healthy plants ready to transplant</p></div>
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="supplements_title">Supplements</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="supplements_sub">Collagen, gummies, vitamins & more</p></div>
     <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
   </div>
-  <div class="swiper seedlingsSwiper pb-2"><div class="swiper-wrapper" id="seedlingsCarousel"></div>
-    <div class="swiper-button-prev seedlings-prev !hidden lg:!flex"></div><div class="swiper-button-next seedlings-next !hidden lg:!flex"></div>
+  <div class="swiper supplementsSwiper pb-2"><div class="swiper-wrapper" id="supplementsCarousel"></div>
+    <div class="swiper-button-prev supplements-prev !hidden lg:!flex"></div><div class="swiper-button-next supplements-next !hidden lg:!flex"></div>
   </div>
 </section>
 
-<!-- HERBS CAROUSEL -->
-<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Fresh Herbs" data-reveal>
+<!-- SKINCARE CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Skincare" data-reveal>
   <div class="flex items-center justify-between mb-4">
-    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="herbs_title">Fresh Herbs</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="herbs_sub">Hand-harvested, pesticide-free</p></div>
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="skincare_title">Skincare</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="skincare_sub">Creams, scrubs, soaps & face care</p></div>
     <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
   </div>
-  <div class="swiper herbsSwiper pb-2"><div class="swiper-wrapper" id="herbsCarousel"></div>
-    <div class="swiper-button-prev herbs-prev !hidden lg:!flex"></div><div class="swiper-button-next herbs-next !hidden lg:!flex"></div>
+  <div class="swiper skincareSwiper pb-2"><div class="swiper-wrapper" id="skincareCarousel"></div>
+    <div class="swiper-button-prev skincare-prev !hidden lg:!flex"></div><div class="swiper-button-next skincare-next !hidden lg:!flex"></div>
   </div>
 </section>
 
-<!-- SPICES CAROUSEL -->
-<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Spices & Supplements" data-reveal>
+<!-- BODYCARE CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Body Care" data-reveal>
   <div class="flex items-center justify-between mb-4">
-    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="spices_title">Spices & Supplements</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="spices_sub">Pure blended spices for everyday health</p></div>
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="bodycare_title">Body Care</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="bodycare_sub">Body oils, scrubs & hair care</p></div>
     <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
   </div>
-  <div class="swiper spicesSwiper pb-2"><div class="swiper-wrapper" id="spicesCarousel"></div>
-    <div class="swiper-button-prev spices-prev !hidden lg:!flex"></div><div class="swiper-button-next spices-next !hidden lg:!flex"></div>
+  <div class="swiper bodycareSwiper pb-2"><div class="swiper-wrapper" id="bodycareCarousel"></div>
+    <div class="swiper-button-prev bodycare-prev !hidden lg:!flex"></div><div class="swiper-button-next bodycare-next !hidden lg:!flex"></div>
   </div>
 </section>
 
-<!-- KEFIR CAROUSEL -->
-<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Kefir & Kombucha" data-reveal>
+<!-- WELLNESS CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Wellness" data-reveal>
   <div class="flex items-center justify-between mb-4">
-    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="kefir_title">Kefir & Kombucha</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="kefir_sub">Live culture probiotics made fresh weekly</p></div>
+    <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl" data-i18n="wellness_title">Wellness</h2><p class="text-sm text-paragraph mt-0.5" data-i18n="wellness_sub">Fat burners, incense & more</p></div>
     <a href="#products" class="text-primary text-sm font-semibold hover:underline shrink-0" data-i18n="see_all">See All →</a>
   </div>
-  <div class="swiper kefirSwiper pb-2"><div class="swiper-wrapper" id="kefirCarousel"></div>
-    <div class="swiper-button-prev kefir-prev !hidden lg:!flex"></div><div class="swiper-button-next kefir-next !hidden lg:!flex"></div>
+  <div class="swiper wellnessSwiper pb-2"><div class="swiper-wrapper" id="wellnessCarousel"></div>
+    <div class="swiper-button-prev wellness-prev !hidden lg:!flex"></div><div class="swiper-button-next wellness-next !hidden lg:!flex"></div>
   </div>
 </section>
 
@@ -337,10 +337,10 @@
   </div>
   <div class="flex gap-2 mb-3 flex-wrap">
     <button class="tab-btn active bg-primary text-white border-primary text-sm font-semibold px-4 py-2 rounded-full transition haptic" onclick="App.Products.filter('all',this)" data-i18n="filter_all">All Products</button>
-    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('seedlings',this)" data-i18n="filter_seedlings">Seedlings</button>
-    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('herbs',this)" data-i18n="filter_herbs">Fresh Herbs</button>
-    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('spices',this)" data-i18n="filter_spices">Spices & Supplements</button>
-    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('kefir',this)" data-i18n="filter_kefir">Kefir & Kombucha</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('supplements',this)" data-i18n="filter_supplements">Supplements</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('skincare',this)" data-i18n="filter_skincare">Skincare</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('bodycare',this)" data-i18n="filter_bodycare">Body Care</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('wellness',this)" data-i18n="filter_wellness">Wellness</button>
   </div>
   <div class="flex items-center gap-3 mb-4 flex-wrap">
     <select onchange="App.Products.sort(this.value)" class="bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm text-heading focus:outline-none focus:border-primary">
@@ -407,7 +407,7 @@
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👩</div><div><p class="font-semibold text-heading text-sm">Wanjiku M.</p><p class="text-paragraph text-xs">Nairobi</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_1">"The moringa powder has transformed my energy levels. I feel more vibrant and healthy than ever!"</p></div>
-    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👨</div><div><p class="font-semibold text-heading text-sm">Otieno K.</p><p class="text-paragraph text-xs">Kisumu</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_2">"Fast delivery and excellent quality seedlings. My kitchen garden is thriving thanks to U-NiceNutraCare!"</p></div>
+    <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👨</div><div><p class="font-semibold text-heading text-sm">Otieno K.</p><p class="text-paragraph text-xs">Kisumu</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_2">"Fast delivery and excellent quality products. My skincare routine has never been better thanks to U-NiceNutraCare!"</p></div>
     <div class="bg-white rounded-2xl p-5 shadow-card border border-gray-50"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-lg">👩</div><div><p class="font-semibold text-heading text-sm">Amina H.</p><p class="text-paragraph text-xs">Mombasa</p></div></div><div class="text-secondary text-sm mb-2">★★★★★</div><p class="text-paragraph text-sm" data-i18n="testimonial_3">"The nutrition consulting service is world-class. Personalized plans that actually work with Kenyan foods."</p></div>
   </div>
 </section>
@@ -432,10 +432,10 @@
         <input type="tel" required pattern="[0-9+\s\-]{10,}" data-i18n-placeholder="contact_phone" placeholder="Phone Number" class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading placeholder-gray-400 focus:outline-none focus:border-primary transition">
         <select required class="w-full bg-surface border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-heading focus:outline-none focus:border-primary transition">
           <option value="" data-i18n="contact_interest_default">I'm interested in...</option>
-          <option value="Seedlings" data-i18n="cat_seedlings">Seedlings</option>
-          <option value="Fresh Herbs" data-i18n="cat_herbs">Fresh Herbs</option>
-          <option value="Spices & Supplements" data-i18n="cat_spices">Spices & Supplements</option>
-          <option value="Kefir & Kombucha" data-i18n="cat_kefir">Kefir & Kombucha</option>
+          <option value="Seedlings" data-i18n="cat_supplements">Supplements</option>
+          <option value="Fresh Herbs" data-i18n="cat_skincare">Skincare</option>
+          <option value="Spices & Supplements" data-i18n="cat_bodycare">Body Care</option>
+          <option value="Kefir & Kombucha" data-i18n="cat_wellness">Wellness</option>
           <option value="Diet Plans" data-i18n="cat_diet">Diet Plans</option>
           <option value="Nutrition Consulting" data-i18n="cat_consult">Consulting</option>
         </select>
@@ -485,7 +485,7 @@
     <div class="grid grid-cols-4 gap-8">
       <div>
         <div class="flex items-center gap-2.5 mb-4"><div class="logo-box w-9 h-9 bg-primary rounded-xl flex items-center justify-center"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path class="logo-stem" d="M12 22 C12 16, 14 10, 12 4" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/><path class="logo-leaf-main" d="M12 4 C8 6, 4 10, 6 14 C8 18, 12 16, 12 12 C12 8, 16 6, 12 4Z" fill="rgba(255,255,255,0.95)"/><path class="logo-leaf-small" d="M12 8 C14 9, 17 11, 16 14 C15 16, 12 15, 12 12 C12 10, 10 9, 12 8Z" fill="rgba(255,255,255,0.7)"/></svg></div><div><span class="font-display font-bold text-white text-lg block leading-tight">U-NiceNutraCare</span><span class="text-[10px] tracking-wider uppercase text-white/40" data-i18n="tagline">Natural Wellness</span></div></div>
-        <p class="text-sm leading-relaxed mb-4" data-i18n="footer_desc">Nairobi's trusted natural wellness shop. Fresh seedlings, medicinal herbs, spices, kefir, kombucha & nutrition consulting.</p>
+        <p class="text-sm leading-relaxed mb-4" data-i18n="footer_desc">Nairobi's trusted natural wellness shop. Supplements, skincare, body care & nutrition consulting.</p>
         <div class="flex gap-2">
           <a href="https://facebook.com/unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><span class="text-sm">f</span></a>
           <a href="https://instagram.com/unicenutracare" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><span class="text-sm">ig</span></a>
@@ -494,7 +494,7 @@
         </div>
       </div>
       <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_quick_links">Quick Links</h4><ul class="space-y-2 text-sm"><li><a href="#products" class="hover:text-primary-light transition" data-i18n="nav_products">Products</a></li><li><a href="#flash-sale" class="hover:text-primary-light transition" data-i18n="nav_flash">Flash Sale</a></li><li><a href="#nutrition" class="hover:text-primary-light transition" data-i18n="nav_nutrition">Diet Plans</a></li><li><a href="https://u-nice-nutracare-kenya-926et7e6.durable.site/" onclick="window.location.href='https://u-nice-nutracare-kenya-926et7e6.durable.site/'; return false;" class="hover:text-primary-light transition" data-i18n="nav_about">About Us</a></li><li><a href="#contact" class="hover:text-primary-light transition" data-i18n="nav_contact">Contact</a></li></ul></div>
-      <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_categories">Categories</h4><ul class="space-y-2 text-sm"><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_seedlings">Seedlings</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_herbs">Fresh Herbs</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_spices">Spices & Supplements</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_kefir">Kefir & Kombucha</a></li><li><a href="#nutrition" class="hover:text-primary-light transition" data-i18n="cat_consult">Nutrition Consulting</a></li></ul></div>
+      <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_categories">Categories</h4><ul class="space-y-2 text-sm"><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_supplements">Supplements</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_skincare">Skincare</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_bodycare">Body Care</a></li><li><a href="#products" class="hover:text-primary-light transition" data-i18n="cat_wellness">Wellness</a></li><li><a href="#nutrition" class="hover:text-primary-light transition" data-i18n="cat_consult">Nutrition Consulting</a></li></ul></div>
       <div><h4 class="font-display font-bold text-white text-sm mb-4" data-i18n="footer_contact">Contact</h4><ul class="space-y-2.5 text-sm"><li class="flex items-start gap-2"><span>📱</span><span>+254 741 090 659</span></li><li class="flex items-start gap-2"><span>📧</span><span>unicenutracare@gmail.com</span></li><li class="flex items-start gap-2"><span>📍</span><span>Nairobi, Kenya</span></li><li class="flex items-start gap-2"><span>🕐</span><span data-i18n="contact_hours">Mon–Sat: 8am – 6pm</span></li></ul></div>
     </div>
     <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
@@ -647,6 +647,6 @@
 <script>
 if('serviceWorker' in navigator&&!sessionStorage.getItem('swFix')){sessionStorage.setItem('swFix','1');Promise.all([navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(reg){reg.unregister()})}),caches.keys().then(function(k){return Promise.all(k.map(function(n){caches.delete(n)}))})]).then(function(){location.reload()})}
 </script>
-<script src="app.js?v=9"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>

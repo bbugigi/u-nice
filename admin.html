@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — U-NiceNutraCare</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Public Sans', system-ui, -apple-system, sans-serif; }
+  .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- ===== LOGIN ===== -->
+<div id="loginView" class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-sm text-center">
+    <div class="w-14 h-14 mx-auto bg-green-700 rounded-2xl flex items-center justify-center text-white text-2xl mb-4">🌿</div>
+    <h1 class="font-bold text-xl text-gray-900 mb-1">U-NiceNutraCare</h1>
+    <p class="text-gray-500 text-sm mb-6">Admin Panel</p>
+    <input id="pwInput" type="password" placeholder="Admin password" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-green-700 mb-2">
+    <p id="pwErr" class="hidden text-red-500 text-xs mb-2"></p>
+    <button onclick="login()" class="w-full bg-green-700 text-white font-bold text-sm py-3 rounded-full hover:bg-green-800 transition">Sign In</button>
+    <p class="text-[11px] text-gray-400 mt-6">Forgot password? Reset it with:<br><code>npx wrangler secret put ADMIN_PASSWORD</code></p>
+  </div>
+</div>
+
+<!-- ===== PANEL ===== -->
+<div id="panelView" class="hidden max-w-5xl mx-auto p-4 pb-24">
+  <header class="flex items-center justify-between py-4 sticky top-0 bg-gray-100 z-20">
+    <div class="flex items-center gap-2">
+      <div class="w-9 h-9 bg-green-700 rounded-xl flex items-center justify-center text-white">🌿</div>
+      <div>
+        <h1 class="font-bold text-heading text-lg leading-tight">Product Admin</h1>
+        <span id="prodStats" class="text-xs text-gray-500"></span>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <a href="/" class="text-sm font-semibold text-gray-500 hover:text-gray-900 px-3 py-2">View Site ↗</a>
+      <button onclick="logout()" class="text-sm font-semibold text-red-500 hover:text-red-600 px-3 py-2">Logout</button>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="flex gap-2 mb-4 flex-wrap items-center">
+    <input id="filterInput" oninput="renderList()" placeholder="Search products..." class="flex-1 min-w-[180px] border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:border-green-700">
+    <select id="catFilter" onchange="renderList()" class="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white">
+      <option value="">All categories</option>
+      <option value="supplements">Supplements</option>
+      <option value="skincare">Skincare</option>
+      <option value="bodycare">Body Care</option>
+      <option value="wellness">Wellness</option>
+    </select>
+    <button onclick="openEditor(null)" class="bg-green-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-green-800 transition whitespace-nowrap">+ Add Product</button>
+  </div>
+
+  <div id="loadingMsg" class="text-center text-gray-400 py-16 text-sm">Loading products…</div>
+  <div id="productList" class="space-y-3"></div>
+</div>
+
+<!-- ===== EDITOR MODAL ===== -->
+<div id="editorModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
+  <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl max-h-[92vh] flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-gray-100 shrink-0">
+      <h2 id="editorTitle" class="font-bold text-lg">Edit Product</h2>
+      <button onclick="closeEditor()" class="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center text-xl">×</button>
+    </div>
+    <div class="overflow-y-auto p-4 space-y-3">
+      <div class="flex gap-3 items-start">
+        <img id="edThumb" src="" class="w-20 h-20 rounded-xl object-cover bg-gray-100 shrink-0" onerror="this.style.visibility='hidden'">
+        <div class="flex-1 space-y-2">
+          <label class="block"><span class="text-xs font-semibold text-gray-500">Photo (from phone assets)</span>
+            <select id="edImageSelect" onchange="document.getElementById('edImageUrl').value=this.value;updateThumb()" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"></select>
+          </label>
+          <label class="block"><span class="text-xs font-semibold text-gray-500">…or paste any image URL/path</span>
+            <input id="edImageUrl" oninput="updateThumb()" placeholder="assets/photoz/IMG-….jpg" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2 text-sm">
+          </label>
+        </div>
+      </div>
+      <label class="block"><span class="text-xs font-semibold text-gray-500">Product name *</span>
+        <input id="edName" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm" placeholder="e.g. Wins Town Collagen with Burn"></label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Price (KSh) *</span>
+          <input id="edPrice" type="number" min="0" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm"></label>
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Old/cut price (optional)</span>
+          <input id="edOrigPrice" type="number" min="0" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm"></label>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Category</span>
+          <select id="edCategory" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option value="supplements">Supplements</option>
+            <option value="skincare">Skincare</option>
+            <option value="bodycare">Body Care</option>
+            <option value="wellness">Wellness</option>
+          </select></label>
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Stock</span>
+          <input id="edStock" type="number" min="0" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm"></label>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Unit / size (e.g. “60 gummies”)</span>
+          <input id="edUnit" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm"></label>
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Badge (Popular / New / Bestseller)</span>
+          <select id="edBadge" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option value="">— none —</option>
+            <option>Popular</option><option>New</option><option>Bestseller</option><option>Premium</option>
+          </select></label>
+      </div>
+      <label class="block"><span class="text-xs font-semibold text-gray-500">Description (English)</span>
+        <textarea id="edDescEn" rows="4" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-y"></textarea></label>
+      <details class="border border-gray-100 rounded-xl p-3">
+        <summary class="text-xs font-semibold text-gray-500 cursor-pointer">Kiswahili & Français (names + descriptions)</summary>
+        <div class="space-y-2 mt-2">
+          <input id="edNameSw" placeholder="Jina kwa Kiswahili" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+          <textarea id="edDescSw" rows="3" placeholder="Maelezo kwa Kiswahili" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-y"></textarea>
+          <input id="edNameFr" placeholder="Nom en français" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+          <textarea id="edDescFr" rows="3" placeholder="Description en français" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-y"></textarea>
+        </div>
+      </details>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="flex items-center gap-2 mt-1 cursor-pointer">
+          <input id="edActive" type="checkbox" class="w-4 h-4 accent-green-700">
+          <span class="text-sm font-medium">Visible on website</span></label>
+        <label class="block"><span class="text-xs font-semibold text-gray-500">Sort order</span>
+          <input id="edSort" type="number" class="w-full mt-1 border border-gray-200 rounded-lg px-3 py-2 text-sm"></label>
+      </div>
+    </div>
+    <div class="p-4 border-t border-gray-100 shrink-0">
+      <p id="edErr" class="hidden text-red-500 text-xs mb-2"></p>
+      <div class="flex gap-2">
+        <button onclick="saveProduct()" id="saveBtn" class="flex-1 bg-green-700 text-white font-bold text-sm py-3 rounded-full hover:bg-green-800 transition">Save Changes</button>
+        <button onclick="deleteProduct()" id="deleteBtn" class="px-5 border border-red-200 text-red-500 font-semibold text-sm py-3 rounded-full hover:bg-red-50 transition hidden">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity z-[60]"></div>
+
+<script>
+const API = 'https://unicenutra-api.fomstreet-ke.workers.dev';
+const TOKEN_KEY = 'uniceAdminToken';
+let products = [];
+let editingId = null;
+let photoList = [];
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.style.opacity = '0', 2200);
+}
+
+async function api(path, options = {}) {
+  const headers = { ...options.headers };
+  if (options.body) headers['Content-Type'] = 'application/json';
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const res = await fetch(`${API}${path}`, { ...options, headers });
+  const data = await res.json().catch(() => ({}));
+  if (res.status === 401 && path !== '/api/admin/login') { showLogin(); throw new Error('Session expired'); }
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ===== AUTH =====
+function showLogin() {
+  localStorage.removeItem(TOKEN_KEY);
+  document.getElementById('panelView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+}
+
+async function login() {
+  const pw = document.getElementById('pwInput').value;
+  const err = document.getElementById('pwErr');
+  if (!pw) return;
+  try {
+    const data = await fetch(`${API}/api/admin/login`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw }),
+    }).then(r => r.json());
+    if (!data.token) throw new Error(data.error || 'Login failed');
+    localStorage.setItem(TOKEN_KEY, data.token);
+    document.getElementById('loginView').classList.add('hidden');
+    document.getElementById('panelView').classList.remove('hidden');
+    init();
+  } catch (e) {
+    err.textContent = e.message === 'Invalid admin password' ? 'Wrong password' : e.message;
+    err.classList.remove('hidden');
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+  location.reload();
+}
+
+// ===== LIST =====
+async function init() {
+  try {
+    const [prodData, photos] = await Promise.all([
+      api('/api/admin/products'),
+      fetch('/assets/photo-list.json').then(r => r.json()).catch(() => []),
+    ]);
+    products = prodData.products;
+    photoList = Array.isArray(photos) ? photos : [];
+    const sel = document.getElementById('edImageSelect');
+    sel.innerHTML = '<option value="">— choose a phone photo —</option>' +
+      photoList.map(f => `<option value="assets/photoz/${f}">${f}</option>`).join('');
+    document.getElementById('loadingMsg').classList.add('hidden');
+    renderList();
+  } catch (e) {
+    if (e.message !== 'Session expired') {
+      document.getElementById('loadingMsg').textContent = 'Failed to load: ' + e.message;
+    }
+  }
+}
+
+function esc(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderList() {
+  const q = document.getElementById('filterInput').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  const list = products.filter(p =>
+    (!cat || p.category === cat) &&
+    (!q || `${p.name_en} ${p.image_url}`.toLowerCase().includes(q))
+  );
+  const activeCount = products.filter(p => p.is_active).length;
+  document.getElementById('prodStats').textContent = `${products.length} products · ${activeCount} visible`;
+
+  document.getElementById('productList').innerHTML = list.map(p => {
+    const img = p.image_url || '';
+    const needsSetup = !p.price && !p.desc_en;
+    return `<div class="bg-white rounded-2xl shadow-sm border ${p.is_active ? 'border-gray-100' : 'border-dashed border-gray-300'} p-3 flex gap-3 items-center cursor-pointer hover:border-green-600 transition" onclick="openEditor(${p.id})">
+      <img src="${esc(img)}" class="w-16 h-16 rounded-xl object-cover bg-gray-100 shrink-0" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23bbb%22 stroke-width=%221%22><rect x=%223%22 y=%223%22 width=%2218%22 height=%2218%22 rx=%222%22/></svg>'">
+      <div class="flex-1 min-w-0">
+        <p class="font-semibold text-sm text-gray-900 line-clamp-1">${esc(p.name_en)}</p>
+        <p class="text-xs text-gray-500 mt-0.5">${esc(p.category)} · stock ${p.stock}</p>
+        <p class="mt-1 ${needsSetup ? 'text-orange-500 font-semibold' : 'text-green-700 font-bold'} text-sm">${p.price ? 'KSh ' + Number(p.price).toLocaleString() : (needsSetup ? '⚠ Needs price & description' : 'KSh 0')}</p>
+      </div>
+      <div class="shrink-0 flex flex-col items-end gap-1">
+        ${p.is_active ? '<span class="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">LIVE</span>' : '<span class="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">HIDDEN</span>'}
+        <span class="text-xs text-gray-400 font-medium">Edit ›</span>
+      </div>
+    </div>`;
+  }).join('') || '<p class="text-center text-gray-400 py-10 text-sm">No products match.</p>';
+}
+
+// ===== EDITOR =====
+function updateThumb() { document.getElementById('edThumb').src = document.getElementById('edImageUrl').value; }
+
+function openEditor(id) {
+  editingId = id;
+  const p = id ? products.find(x => x.id === id) : null;
+  document.getElementById('editorTitle').textContent = p ? 'Edit Product' : 'Add Product';
+  document.getElementById('deleteBtn').classList.toggle('hidden', !p);
+  document.getElementById('edErr').classList.add('hidden');
+
+  const set = (fid, v) => document.getElementById(fid).value = v ?? '';
+  set('edName', p?.name_en); set('edPrice', p?.price); set('edOrigPrice', p?.original_price);
+  set('edStock', p ? p.stock : 10); set('edUnit', p?.unit_en);
+  set('edCategory', p?.category || 'supplements');
+  set('edDescEn', p?.desc_en); set('edNameSw', p?.name_sw); set('edDescSw', p?.desc_sw);
+  set('edNameFr', p?.name_fr); set('edDescFr', p?.desc_fr);
+  set('edSort', p?.sort_order ?? (Math.max(0, ...products.map(x => x.sort_order)) + 1));
+  document.getElementById('edActive').checked = p ? !!p.is_active : true;
+  const badge = p ? (Array.isArray(p.badges) ? p.badges[0] : JSON.parse(p.badges || '[]')[0]) : null;
+  set('edBadge', badge || '');
+  const imgUrl = p?.image_url || '';
+  set('edImageUrl', imgUrl);
+  const sel = document.getElementById('edImageSelect');
+  sel.value = photoList.some(f => `assets/photoz/${f}` === imgUrl) ? imgUrl : '';
+  updateThumb();
+  document.getElementById('editorModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEditor() {
+  document.getElementById('editorModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+async function saveProduct() {
+  const err = document.getElementById('edErr');
+  const name = document.getElementById('edName').value.trim();
+  const price = parseInt(document.getElementById('edPrice').value) || 0;
+  if (!name) { err.textContent = 'Product name is required'; err.classList.remove('hidden'); return; }
+
+  const badge = document.getElementById('edBadge').value;
+  const body = {
+    name_en: name,
+    name_sw: document.getElementById('edNameSw').value.trim(),
+    name_fr: document.getElementById('edNameFr').value.trim(),
+    price,
+    original_price: parseInt(document.getElementById('edOrigPrice').value) || null,
+    category: document.getElementById('edCategory').value,
+    stock: parseInt(document.getElementById('edStock').value) || 0,
+    unit_en: document.getElementById('edUnit').value.trim(),
+    image_url: document.getElementById('edImageUrl').value.trim(),
+    desc_en: document.getElementById('edDescEn').value.trim(),
+    desc_sw: document.getElementById('edDescSw').value.trim(),
+    desc_fr: document.getElementById('edDescFr').value.trim(),
+    badges: badge ? [badge] : [],
+    sort_order: parseInt(document.getElementById('edSort').value) || 0,
+    is_active: document.getElementById('edActive').checked ? 1 : 0,
+  };
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    if (editingId) {
+      await api(`/api/admin/products/${editingId}`, { method: 'PUT', body: JSON.stringify(body) });
+      Object.assign(products.find(x => x.id === editingId), body, { badges: body.badges });
+      toast('Saved ✓ Live site updates instantly');
+    } else {
+      const created = await api('/api/admin/products', { method: 'POST', body: JSON.stringify(body) });
+      await refresh();
+      toast('Product added ✓');
+    }
+    closeEditor();
+    renderList();
+  } catch (e) {
+    err.textContent = e.message; err.classList.remove('hidden');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Changes';
+  }
+}
+
+async function deleteProduct() {
+  if (!editingId) return;
+  if (!confirm('Delete this product permanently?')) return;
+  try {
+    await api(`/api/admin/products/${editingId}`, { method: 'DELETE' });
+    products = products.filter(x => x.id !== editingId);
+    toast('Deleted 🗑️');
+    closeEditor();
+    renderList();
+  } catch (e) { toast('Delete failed: ' + e.message); }
+}
+
+async function refresh() {
+  const prodData = await api('/api/admin/products');
+  products = prodData.products;
+}
+
+// Auto-login if token exists
+if (localStorage.getItem(TOKEN_KEY)) {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('panelView').classList.remove('hidden');
+  init();
+}
+</script>
+</body>
+</html>
