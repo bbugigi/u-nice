@@ -803,6 +803,109 @@ const App = (() => {
     return { render, openModal, closeModal };
   })();
 
+  // ===== MODULE: Digital Books =====
+  const Books = (() => {
+    let books = [];
+    const CURRENCY = 'KSh';
+    const fetchBooks = async () => {
+      try {
+        const res = await fetch(API_BASE + '/api/books');
+        const data = await res.json();
+        books = data.books || [];
+      } catch (e) { books = []; }
+    };
+    const renderGrid = async () => {
+      await fetchBooks();
+      const grid = document.getElementById('booksGrid');
+      const empty = document.getElementById('booksEmpty');
+      if (!grid) return;
+      if (books.length === 0) { grid.innerHTML = ''; if (empty) empty.classList.remove('hidden'); return; }
+      if (empty) empty.classList.add('hidden');
+      grid.innerHTML = books.map(b => {
+        const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
+        const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+        return `<div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Books.openDetail(${b.id})">
+          <div class="relative h-48 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50">
+            <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-6xl\\'>📚</div>'">
+            <span class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+          </div>
+          <div class="p-4">
+            <p class="text-[10px] font-bold text-primary uppercase">${b.author || 'U-NiceNutraCare'}</p>
+            <h3 class="font-display font-bold text-heading text-sm mt-1 line-clamp-2">${b.title}</h3>
+            <p class="text-paragraph text-xs mt-1 line-clamp-2">${b.description || ''}</p>
+            <div class="flex items-center justify-between mt-3">
+              <span class="font-display font-bold text-primary text-sm">${priceLabel}</span>
+              <button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    };
+    const openDetail = (id) => {
+      const b = books.find(x => x.id === id);
+      if (!b) return;
+      const cover = b.cover_url || '';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      const modal = document.getElementById('productModal');
+      if (!modal) return;
+      document.getElementById('modalProductName').textContent = b.title;
+      document.getElementById('modalProductPrice').textContent = priceLabel;
+      document.getElementById('modalProductImage').src = cover;
+      document.getElementById('modalProductDesc').textContent = b.description || '';
+      document.getElementById('modalProductUnit').textContent = b.author || 'U-NiceNutraCare';
+      const badgesEl = document.getElementById('modalProductBadges');
+      if (badgesEl) badgesEl.innerHTML = '<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>';
+      const addBtn = document.getElementById('modalAddCart');
+      if (addBtn) {
+        addBtn.textContent = 'Get This Book';
+        addBtn.onclick = () => Books.purchase(b.id);
+      }
+      modal.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    };
+    const purchase = async (id) => {
+      const b = books.find(x => x.id === id);
+      if (!b) return;
+      if (b.price === 0) {
+        window.open(`${API_BASE}/api/books/${id}/download`, '_blank');
+        return;
+      }
+      App.Cart.requireAuth(async () => {
+        try {
+          const account = JSON.parse(localStorage.getItem('uniceAccount') || '{}');
+          const email = account.email;
+          if (!email) { App.Toast.show('Please log in first'); return; }
+          const data = await App.Cart.apiFetch('/api/books/purchase', {
+            method: 'POST', body: JSON.stringify({ book_id: id, email })
+          });
+          if (data.already_purchased) {
+            window.open(`${API_BASE}/api/books/${id}/download?email=${encodeURIComponent(email)}`, '_blank');
+            App.Toast.show('Downloading your book…');
+            return;
+          }
+          if (data.access_code && typeof PaystackPop !== 'undefined') {
+            const handler = PaystackPop.setup({
+              key: App.Cart.paystackKey,
+              email, amount: data.amount * 100, currency: 'KES', ref: data.reference,
+              onClose: () => App.Toast.show('Payment cancelled'),
+              callback: async (response) => {
+                try {
+                  const verify = await App.Cart.apiFetch(`/api/books/verify/${response.reference}`);
+                  if (verify.success) {
+                    App.Toast.show('Payment successful! Downloading…');
+                    window.open(`${API_BASE}/api/books/${id}/download?ref=${response.reference}`, '_blank');
+                  }
+                } catch (e) { App.Toast.show('Verification failed. Contact support.'); }
+              },
+            });
+            handler.openIframe();
+          }
+        } catch (e) { App.Toast.show('Error: ' + e.message); }
+      });
+    };
+    return { fetchBooks, renderGrid, openDetail, purchase };
+  })();
+
   // ===== MODULE: Newsletter (API-backed) =====
   const Newsletter = (() => {
     const init = () => {
@@ -925,6 +1028,7 @@ const App = (() => {
     }
     Wishlist.render();
     Blog.render();
+    Books.renderGrid();
     Cart.updateUI();
     Cart.initPaystack();
     Account.updateNavLabel();
@@ -957,5 +1061,5 @@ const App = (() => {
 
   document.addEventListener('DOMContentLoaded', init);
 
-  return { I18n, Products, Cart, Wishlist, Reviews, Search, Blog, PWA, Account, Share, Toast, UI, FlashSale, ScrollEffects, Analytics };
+  return { I18n, Products, Cart, Wishlist, Reviews, Search, Blog, Books, PWA, Account, Share, Toast, UI, FlashSale, ScrollEffects, Analytics };
 })();

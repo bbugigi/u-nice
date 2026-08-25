@@ -301,6 +301,70 @@ async function handleGetProduct(request, env) {
   });
 }
 
+// --- Image Upload ---
+async function handleUploadImage(request, env) {
+  const contentType = request.headers.get('Content-Type') || '';
+  if (!contentType.includes('multipart/form-data')) {
+    return errorResponse('Expected multipart/form-data');
+  }
+
+  const formData = await request.formData();
+  const file = formData.get('file');
+  if (!file) return errorResponse('No file provided');
+
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  if (!allowedTypes.includes(file.type)) {
+    return errorResponse('Only JPEG, PNG, WebP, and GIF images are allowed');
+  }
+
+  const maxSize = 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    return errorResponse('Image must be under 5 MB');
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const base64 = btoa(binary);
+
+  const id = crypto.randomUUID();
+  const filename = file.name || 'upload.jpg';
+
+  await env.DB.prepare(
+    'INSERT INTO product_images (id, image_data, content_type, filename) VALUES (?, ?, ?, ?)'
+  ).bind(id, base64, file.type, filename).run();
+
+  const url = `${new URL(request.url).origin}/api/images/${id}`;
+  return jsonResponse({ success: true, url, id });
+}
+
+async function handleServeImage(request, env) {
+  const url = new URL(request.url);
+  const id = url.pathname.split('/').pop();
+
+  const row = await env.DB.prepare(
+    'SELECT image_data, content_type FROM product_images WHERE id = ?'
+  ).bind(id).first();
+
+  if (!row) return errorResponse('Image not found', 404);
+
+  const binaryStr = atob(row.image_data);
+  const bytes = new Uint8Array(binaryStr.length);
+  for (let i = 0; i < binaryStr.length; i++) {
+    bytes[i] = binaryStr.charCodeAt(i);
+  }
+
+  return new Response(bytes, {
+    headers: {
+      'Content-Type': row.content_type,
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    },
+  });
+}
+
 // --- Admin ---
 async function handleAdminLogin(request, env) {
   const body = await request.json();
@@ -766,6 +830,226 @@ async function handleTrackEvent(request, env) {
   return jsonResponse({ success: true });
 }
 
+// ===== BOOKS =====
+async function handleGetBooks(request, env) {
+  const { results } = await env.DB.prepare(
+    'SELECT id, title, author, description, price, cover_url, sort_order, is_active, created_at FROM books WHERE is_active = 1 ORDER BY sort_order ASC, id ASC'
+  ).all();
+  return jsonResponse({ books: results });
+}
+
+async function handleAdminGetBooks(request, env) {
+  const { results } = await env.DB.prepare(
+    'SELECT id, title, author, description, price, cover_url, file_name, file_size, sort_order, is_active, created_at FROM books ORDER BY sort_order ASC, id ASC'
+  ).all();
+  return jsonResponse({ books: results });
+}
+
+async function handleAdminCreateBook(request, env) {
+  const contentType = request.headers.get('Content-Type') || '';
+  let title, author, description, price, cover_url, sort_order, is_active;
+  let fileData = '', fileName = '', fileSize = 0;
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await request.formData();
+    title = form.get('title') || '';
+    author = form.get('author') || 'U-NiceNutraCare';
+    description = form.get('description') || '';
+    price = parseInt(form.get('price')) || 0;
+    cover_url = form.get('cover_url') || '';
+    sort_order = parseInt(form.get('sort_order')) || 0;
+    is_active = form.get('is_active') === '0' ? 0 : 1;
+    const file = form.get('file');
+    if (file && file.size > 0) {
+      const buf = await file.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let bin = '';
+      for (let i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
+      fileData = btoa(bin);
+      fileName = file.name;
+      fileSize = file.size;
+    }
+  } else {
+    const body = await request.json();
+    title = body.title || '';
+    author = body.author || 'U-NiceNutraCare';
+    description = body.description || '';
+    price = parseInt(body.price) || 0;
+    cover_url = body.cover_url || '';
+    sort_order = parseInt(body.sort_order) || 0;
+    is_active = body.is_active === 0 ? 0 : 1;
+  }
+
+  if (!title) return errorResponse('Title is required');
+
+  const result = await env.DB.prepare(
+    'INSERT INTO books (title, author, description, price, cover_url, file_data, file_name, file_size, sort_order, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+  ).bind(title, author, description, price, cover_url, fileData, fileName, fileSize, sort_order, is_active).run();
+
+  return jsonResponse({ success: true, id: result.meta.last_row_id }, 201);
+}
+
+async function handleAdminUpdateBook(request, env) {
+  const id = new URL(request.url).pathname.split('/').pop();
+  const contentType = request.headers.get('Content-Type') || '';
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await request.formData();
+    const fields = {};
+    for (const [key, val] of form.entries()) {
+      if (key === 'file') continue;
+      fields[key] = val;
+    }
+    const updates = []; const params = [];
+    for (const [key, val] of Object.entries(fields)) {
+      updates.push(`${key} = ?`);
+      params.push(key === 'price' || key === 'sort_order' || key === 'is_active' ? parseInt(val) || 0 : val);
+    }
+    const file = form.get('file');
+    if (file && file.size > 0) {
+      const buf = await file.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let bin = '';
+      for (let i = 0; i < bytes.byteLength; i++) bin += String.fromCharCode(bytes[i]);
+      updates.push('file_data = ?', 'file_name = ?', 'file_size = ?');
+      params.push(btoa(bin), file.name, file.size);
+    }
+    if (updates.length === 0) return errorResponse('No fields to update');
+    params.push(id);
+    await env.DB.prepare(`UPDATE books SET ${updates.join(', ')} WHERE id = ?`).bind(...params).run();
+  } else {
+    const body = await request.json();
+    const updates = []; const params = [];
+    const fields = ['title', 'author', 'description', 'price', 'cover_url', 'sort_order', 'is_active'];
+    for (const f of fields) {
+      if (f in body) {
+        updates.push(`${f} = ?`);
+        params.push(f === 'price' || f === 'sort_order' || f === 'is_active' ? parseInt(body[f]) || 0 : body[f]);
+      }
+    }
+    if (updates.length === 0) return errorResponse('No fields to update');
+    params.push(id);
+    await env.DB.prepare(`UPDATE books SET ${updates.join(', ')} WHERE id = ?`).bind(...params).run();
+  }
+  return jsonResponse({ success: true });
+}
+
+async function handleAdminDeleteBook(request, env) {
+  const id = new URL(request.url).pathname.split('/').pop();
+  await env.DB.prepare('DELETE FROM digital_purchases WHERE book_id = ?').bind(id).run();
+  await env.DB.prepare('DELETE FROM books WHERE id = ?').bind(id).run();
+  return jsonResponse({ success: true });
+}
+
+async function handleGetBookDownload(request, env) {
+  const id = new URL(request.url).pathname.split('/').split('download')[0].split('/').filter(Boolean).pop();
+  const book = await env.DB.prepare('SELECT id, file_data, file_name, title FROM books WHERE id = ?').bind(id).first();
+  if (!book || !book.file_data) return errorResponse('Book not found', 404);
+
+  const userPayload = await getUserFromRequest(request, env);
+  const email = userPayload?.email;
+  const url = new URL(request.url);
+  const ref = url.searchParams.get('ref');
+
+  let hasAccess = false;
+  if (email) {
+    const purchase = await env.DB.prepare(
+      "SELECT id FROM digital_purchases WHERE book_id = ? AND email = ? AND status = 'paid' LIMIT 1"
+    ).bind(id, email).first();
+    if (purchase) hasAccess = true;
+  }
+  if (!hasAccess && ref) {
+    const purchase = await env.DB.prepare(
+      "SELECT id FROM digital_purchases WHERE book_id = ? AND payment_ref = ? AND status = 'paid' LIMIT 1"
+    ).bind(id, ref).first();
+    if (purchase) hasAccess = true;
+  }
+  if (!hasAccess && book.file_data) {
+    const freeBook = await env.DB.prepare('SELECT id FROM books WHERE id = ? AND price = 0').bind(id).first();
+    if (freeBook) hasAccess = true;
+  }
+
+  if (!hasAccess) return errorResponse('Purchase required to download this book', 403);
+
+  const binStr = atob(book.file_data);
+  const bytes = new Uint8Array(binStr.length);
+  for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+
+  return new Response(bytes, {
+    headers: {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Disposition': `attachment; filename="${book.file_name || book.title + '.docx'}"`,
+    },
+  });
+}
+
+async function handleBookPurchaseInit(request, env) {
+  const body = await request.json();
+  const { book_id, email } = body;
+  if (!book_id || !email) return errorResponse('book_id and email required');
+
+  const book = await env.DB.prepare('SELECT id, title, price FROM books WHERE id = ? AND is_active = 1').bind(book_id).first();
+  if (!book) return errorResponse('Book not found', 404);
+
+  const ref = 'BOOK' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 6).toUpperCase();
+  const existing = await env.DB.prepare('SELECT id FROM digital_purchases WHERE book_id = ? AND email = ? AND status = ?').bind(book_id, email, 'paid').first();
+  if (existing) return jsonResponse({ success: true, already_purchased: true, purchase_id: existing.id });
+
+  await env.DB.prepare(
+    'INSERT INTO digital_purchases (book_id, email, amount, payment_ref, status) VALUES (?, ?, ?, ?, ?)'
+  ).bind(book_id, email, book.price, ref, 'pending').run();
+
+  const paystackResult = await paystackInit(email, book.price, ref, { book_id, book_title: book.title }, env.PAYSTACK_SECRET_KEY);
+  if (!paystackResult.status) return errorResponse('Payment init failed');
+
+  return jsonResponse({
+    success: true,
+    access_code: paystackResult.data.access_code,
+    reference: ref,
+    amount: book.price,
+  });
+}
+
+async function handleBookPurchaseVerify(request, env) {
+  const ref = new URL(request.url).pathname.split('/').pop();
+  const verification = await paystackVerify(ref, env.PAYSTACK_SECRET_KEY);
+  if (!verification.status || verification.data.status !== 'success') {
+    return errorResponse('Payment not verified', 402);
+  }
+
+  await env.DB.prepare(
+    "UPDATE digital_purchases SET status = 'paid' WHERE payment_ref = ?"
+  ).bind(ref).run();
+
+  const purchase = await env.DB.prepare(
+    'SELECT book_id FROM digital_purchases WHERE payment_ref = ?'
+  ).bind(ref).first();
+
+  return jsonResponse({ success: true, book_id: purchase?.book_id, reference: ref });
+}
+
+// ===== SITE SETTINGS =====
+async function handleGetSiteSettings(request, env) {
+  const { results } = await env.DB.prepare('SELECT key, value FROM site_settings').all();
+  const settings = {};
+  for (const row of results) settings[row.key] = row.value;
+  return jsonResponse({ settings });
+}
+
+async function handleAdminUpdateSiteSettings(request, env) {
+  const body = await request.json();
+  const stmts = [];
+  for (const [key, value] of Object.entries(body)) {
+    stmts.push(
+      env.DB.prepare(
+        "INSERT INTO site_settings (key, value, updated_at) VALUES (?, ?, datetime('now')) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at"
+      ).bind(key, String(value))
+    );
+  }
+  if (stmts.length > 0) await env.DB.batch(stmts);
+  return jsonResponse({ success: true });
+}
+
 // ===== MAIN ROUTER =====
 export default {
   async fetch(request, env, ctx) {
@@ -797,9 +1081,34 @@ export default {
         response = await handleGetProduct(request, env);
       }
 
+      // Uploaded images (public)
+      else if (path.match(/^\/api\/images\/[\w-]+$/) && request.method === 'GET') {
+        response = await handleServeImage(request, env);
+      }
+
+      // Books (public)
+      else if (path === '/api/books' && request.method === 'GET') {
+        response = await handleGetBooks(request, env);
+      } else if (path.match(/^\/api\/books\/\d+\/download$/) && request.method === 'GET') {
+        response = await handleGetBookDownload(request, env);
+      } else if (path === '/api/books/purchase' && request.method === 'POST') {
+        response = await handleBookPurchaseInit(request, env);
+      } else if (path.match(/^\/api\/books\/verify\/[\w-]+$/) && request.method === 'GET') {
+        response = await handleBookPurchaseVerify(request, env);
+      }
+
+      // Site settings (public)
+      else if (path === '/api/settings' && request.method === 'GET') {
+        response = await handleGetSiteSettings(request, env);
+      }
+
       // Admin
       else if (path === '/api/admin/login' && request.method === 'POST') {
         response = await handleAdminLogin(request, env);
+      } else if (path === '/api/admin/upload-image' && request.method === 'POST') {
+        const admin = await requireAdmin(request, env);
+        if (!admin) { response = errorResponse('Unauthorized', 401); }
+        else { response = await handleUploadImage(request, env); }
       } else if (path.startsWith('/api/admin/')) {
         const admin = await requireAdmin(request, env);
         if (!admin) {
@@ -812,6 +1121,22 @@ export default {
           response = await handleAdminUpdateProduct(request, env);
         } else if (path.match(/^\/api\/admin\/products\/\d+$/) && request.method === 'DELETE') {
           response = await handleAdminDeleteProduct(request, env);
+        }
+        // Books
+        else if (path === '/api/admin/books' && request.method === 'GET') {
+          response = await handleAdminGetBooks(request, env);
+        } else if (path === '/api/admin/books' && request.method === 'POST') {
+          response = await handleAdminCreateBook(request, env);
+        } else if (path.match(/^\/api\/admin\/books\/\d+$/) && request.method === 'PUT') {
+          response = await handleAdminUpdateBook(request, env);
+        } else if (path.match(/^\/api\/admin\/books\/\d+$/) && request.method === 'DELETE') {
+          response = await handleAdminDeleteBook(request, env);
+        }
+        // Site settings
+        else if (path === '/api/admin/settings' && request.method === 'GET') {
+          response = await handleGetSiteSettings(request, env);
+        } else if (path === '/api/admin/settings' && request.method === 'PUT') {
+          response = await handleAdminUpdateSiteSettings(request, env);
         }
       }
 
