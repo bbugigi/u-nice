@@ -99,6 +99,7 @@
       <a href="#categories" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span data-i18n="nav_categories">Categories</span></a>
       <a href="#products" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2z"/></svg><span data-i18n="nav_products">Products</span></a>
       <a href="#flash-sale" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg><span data-i18n="nav_flash">Flash Sale</span></a>
+      <a href="#products" onclick="App.UI.closeSidebar(); App.Products.filter('books',document.querySelector('[onclick*=books]'))" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg><span>📖 Digital Books</span></a>
       <a href="#nutrition" onclick="App.UI.closeSidebar()" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 000 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.20-1.10-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg><span data-i18n="nav_nutrition">Nutrition</span></a>
       <hr class="my-3 border-gray-100">
       <a href="#" onclick="event.preventDefault(); App.UI.closeSidebar(); setTimeout(function(){ window.open('https://u-nice-nutracare-kenya-926et7e6.durable.site/','_blank'); }, 100);" class="flex items-center gap-3 py-3 px-3 rounded-xl hover:bg-surface-alt transition text-heading font-medium text-sm"><svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span data-i18n="nav_about">About Us</span></a>
@@ -312,13 +313,15 @@
   </div>
 </section>
 
-<!-- DIGITAL BOOKS -->
-<section id="digital-books" class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Digital Books" data-reveal>
+<!-- DIGITAL BOOKS CAROUSEL -->
+<section class="px-4 lg:px-6 mt-8 lg:mt-10" aria-label="Digital Books" data-reveal>
   <div class="flex items-center justify-between mb-4">
     <div><h2 class="font-display font-bold text-heading text-lg lg:text-xl">Digital Books</h2><p class="text-sm text-paragraph mt-0.5">E-books on nutrition, wellness & baby care</p></div>
+    <a href="#products" onclick="App.Products.filter('books',document.querySelector('[onclick*=books]'))" class="text-primary text-sm font-semibold hover:underline shrink-0">See All →</a>
   </div>
-  <div id="booksGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-  <div id="booksEmpty" class="hidden text-center text-gray-400 py-8 text-sm">No books available yet.</div>
+  <div class="swiper booksSwiper pb-2"><div class="swiper-wrapper" id="booksCarousel"></div>
+    <div class="swiper-button-prev books-prev !hidden lg:!flex"></div><div class="swiper-button-next books-next !hidden lg:!flex"></div>
+  </div>
 </section>
 
 <!-- FLASH SALE -->
@@ -350,6 +353,7 @@
     <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('skincare',this)" data-i18n="filter_skincare">Skincare</button>
     <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('bodycare',this)" data-i18n="filter_bodycare">Body Care</button>
     <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('wellness',this)" data-i18n="filter_wellness">Wellness</button>
+    <button class="tab-btn bg-white text-paragraph border-gray-200 text-sm font-medium px-4 py-2 rounded-full hover:border-primary hover:text-primary transition haptic" onclick="App.Products.filter('books',this)">📖 Digital Books</button>
   </div>
   <div class="flex items-center gap-3 mb-4 flex-wrap">
     <select onchange="App.Products.sort(this.value)" class="bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm text-heading focus:outline-none focus:border-primary">

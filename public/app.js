@@ -170,6 +170,15 @@ const App = (() => {
       const grid = document.getElementById('product-grid');
       const empty = document.getElementById('searchEmpty');
       const countEl = document.getElementById('productCount');
+
+      if (state.category === 'books') {
+        const bookHtml = await Books.renderGrid();
+        if (grid) grid.innerHTML = bookHtml;
+        if (empty) empty.classList.add('hidden');
+        if (countEl) countEl.textContent = `${Books.getAll().length} books`;
+        return;
+      }
+
       if (!state.productsLoaded) await fetchProducts();
       if (state.products.length === 0) {
         if (grid) grid.innerHTML = '';
@@ -814,33 +823,38 @@ const App = (() => {
         books = data.books || [];
       } catch (e) { books = []; }
     };
-    const renderGrid = async () => {
-      await fetchBooks();
-      const grid = document.getElementById('booksGrid');
-      const empty = document.getElementById('booksEmpty');
-      if (!grid) return;
-      if (books.length === 0) { grid.innerHTML = ''; if (empty) empty.classList.remove('hidden'); return; }
-      if (empty) empty.classList.add('hidden');
-      grid.innerHTML = books.map(b => {
-        const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
-        const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
-        return `<div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Books.openDetail(${b.id})">
-          <div class="relative h-48 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50">
-            <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-6xl\\'>📚</div>'">
-            <span class="absolute top-2 right-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
-          </div>
-          <div class="p-4">
-            <p class="text-[10px] font-bold text-primary uppercase">${b.author || 'U-NiceNutraCare'}</p>
-            <h3 class="font-display font-bold text-heading text-sm mt-1 line-clamp-2">${b.title}</h3>
-            <p class="text-paragraph text-xs mt-1 line-clamp-2">${b.description || ''}</p>
-            <div class="flex items-center justify-between mt-3">
-              <span class="font-display font-bold text-primary text-sm">${priceLabel}</span>
-              <button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
+    const renderCard = (b) => {
+      const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      return `<div class="swiper-slide"><div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Books.openDetail(${b.id})">
+        <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
+          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-6xl\\'>📚</div>'">
+          <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+        </div>
+        <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${b.title}</p><p class="text-xs text-paragraph mt-0.5">${b.author || 'U-NiceNutraCare'}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${priceLabel}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button></div></div>
+      </div></div>`;
     };
+    const renderGridCard = (b) => {
+      const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      return `<div class="product-card bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer" onclick="App.Books.openDetail(${b.id})" data-cat="books">
+        <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
+          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-5xl\\'>📚</div>'">
+          <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+        </div>
+        <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${b.title}</p><p class="text-xs text-paragraph mt-0.5">${b.author || 'U-NiceNutraCare'}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${priceLabel}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button></div></div>
+      </div>`;
+    };
+    const renderCarousel = async () => {
+      if (books.length === 0) await fetchBooks();
+      const el = document.getElementById('booksCarousel');
+      if (el) el.innerHTML = books.map(b => renderCard(b)).join('');
+    };
+    const renderGrid = async () => {
+      if (books.length === 0) await fetchBooks();
+      return books.map(b => renderGridCard(b)).join('');
+    };
+    const getAll = () => books;
     const openDetail = (id) => {
       const b = books.find(x => x.id === id);
       if (!b) return;
@@ -903,7 +917,7 @@ const App = (() => {
         } catch (e) { App.Toast.show('Error: ' + e.message); }
       });
     };
-    return { fetchBooks, renderGrid, openDetail, purchase };
+    return { fetchBooks, renderCarousel, renderGrid, getAll, openDetail, purchase };
   })();
 
   // ===== MODULE: Newsletter (API-backed) =====
@@ -1028,7 +1042,7 @@ const App = (() => {
     }
     Wishlist.render();
     Blog.render();
-    Books.renderGrid();
+    Books.renderCarousel();
     Cart.updateUI();
     Cart.initPaystack();
     Account.updateNavLabel();
@@ -1053,6 +1067,7 @@ const App = (() => {
         new Swiper('.skincareSwiper', { ...sc, navigation: { nextEl: '.skincare-next', prevEl: '.skincare-prev' } });
         new Swiper('.bodycareSwiper', { ...sc, navigation: { nextEl: '.bodycare-next', prevEl: '.bodycare-prev' } });
         new Swiper('.wellnessSwiper', { ...sc, navigation: { nextEl: '.wellness-next', prevEl: '.wellness-prev' } });
+        new Swiper('.booksSwiper', { ...sc, navigation: { nextEl: '.books-next', prevEl: '.books-prev' } });
         new Swiper('.flashSwiper', { ...sc });
       } catch (e) { console.warn('Swiper init error:', e); }
     }
