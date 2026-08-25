@@ -876,7 +876,10 @@ async function handleAdminCreateBook(request, env) {
     description = body.description || '';
     price = parseInt(body.price) || 0;
     cover_url = body.cover_url || '';
-    sort_order = parseInt(body.sort_order) || 0;
+    fileData = body.file_data || '';
+    fileName = body.file_name || '';
+    fileSize = body.file_size || 0;
+    sort_order = body.sort_order || 0;
     is_active = body.is_active === 0 ? 0 : 1;
   }
 
@@ -920,7 +923,7 @@ async function handleAdminUpdateBook(request, env) {
   } else {
     const body = await request.json();
     const updates = []; const params = [];
-    const fields = ['title', 'author', 'description', 'price', 'cover_url', 'sort_order', 'is_active'];
+    const fields = ['title', 'author', 'description', 'price', 'cover_url', 'sort_order', 'is_active', 'file_data', 'file_name', 'file_size'];
     for (const f of fields) {
       if (f in body) {
         updates.push(`${f} = ?`);
@@ -942,7 +945,8 @@ async function handleAdminDeleteBook(request, env) {
 }
 
 async function handleGetBookDownload(request, env) {
-  const id = new URL(request.url).pathname.split('/').split('download')[0].split('/').filter(Boolean).pop();
+  const segments = new URL(request.url).pathname.split('/').filter(Boolean);
+  const id = segments[segments.length - 2];
   const book = await env.DB.prepare('SELECT id, file_data, file_name, title FROM books WHERE id = ?').bind(id).first();
   if (!book || !book.file_data) return errorResponse('Book not found', 404);
 
