@@ -558,7 +558,9 @@ const App = (() => {
     const closePaymentModal = () => { const m = document.getElementById('paymentModal'); if (m) m.classList.add('hidden'); };
     const fallbackWhatsApp = () => { closePaymentModal(); checkoutWhatsApp(); };
 
-    return { add, remove, updateQty, clear, getCount, getTotal, updateUI, setDelivery: (loc) => { state.cart._location = loc; updateUI(); }, open, close, checkoutWhatsApp, checkoutPaystack, cancelPayment, closePaymentModal, fallbackWhatsApp, initPaystack, _checkoutAuthToggle, _checkoutAuthLogin, _checkoutAuthRegister };
+    const getPaystackKey = () => paystackKey;
+
+    return { add, remove, updateQty, clear, getCount, getTotal, updateUI, setDelivery: (loc) => { state.cart._location = loc; updateUI(); }, open, close, checkoutWhatsApp, checkoutPaystack, cancelPayment, closePaymentModal, fallbackWhatsApp, initPaystack, requireAuth, getPaystackKey, _checkoutAuthToggle, _checkoutAuthLogin, _checkoutAuthRegister };
   })();
 
   // ===== MODULE: Wishlist =====
@@ -860,21 +862,20 @@ const App = (() => {
       if (!b) return;
       const cover = b.cover_url || '';
       const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
-      const modal = document.getElementById('productModal');
-      if (!modal) return;
-      document.getElementById('modalProductName').textContent = b.title;
-      document.getElementById('modalProductPrice').textContent = priceLabel;
-      document.getElementById('modalProductImage').src = cover;
-      document.getElementById('modalProductDesc').textContent = b.description || '';
-      document.getElementById('modalProductUnit').textContent = b.author || 'U-NiceNutraCare';
-      const badgesEl = document.getElementById('modalProductBadges');
-      if (badgesEl) badgesEl.innerHTML = '<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>';
-      const addBtn = document.getElementById('modalAddCart');
-      if (addBtn) {
-        addBtn.textContent = 'Get This Book';
-        addBtn.onclick = () => Books.purchase(b.id);
-      }
-      modal.classList.remove('translate-x-full');
+      document.getElementById('productDetailBody').innerHTML = `
+        <div class="relative bg-gradient-to-br from-blue-50 to-indigo-50 h-56 flex items-center justify-center">
+          ${cover ? `<img src="${cover}" alt="${b.title}" class="w-full h-full object-cover">` : '<span class="text-8xl">📚</span>'}
+          <span class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+          <button onclick="App.Products.closeDetail()" class="absolute top-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md haptic"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2"><span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span><span class="text-paragraph text-xs">${b.author || 'U-NiceNutraCare'}</span></div>
+          <h2 class="font-display font-bold text-heading text-xl mb-1">${b.title}</h2>
+          <p class="text-paragraph text-sm mb-3">${b.description || ''}</p>
+          <div class="flex items-center gap-3 mb-4"><span class="font-display font-bold text-primary text-2xl">${priceLabel}</span></div>
+          <button onclick="App.Books.purchase(${b.id})" class="w-full bg-primary text-white font-bold text-sm py-3 rounded-full hover:bg-primary-dark transition haptic">Get This Book</button>
+        </div>`;
+      document.getElementById('productDetailModal').classList.remove('-translate-x-full');
       document.body.style.overflow = 'hidden';
     };
     const purchase = async (id) => {
@@ -884,38 +885,39 @@ const App = (() => {
         window.open(`${API_BASE}/api/books/${id}/download`, '_blank');
         return;
       }
-      App.Cart.requireAuth(async () => {
+      const doPurchase = async () => {
         try {
           const account = JSON.parse(localStorage.getItem('uniceAccount') || '{}');
           const email = account.email;
-          if (!email) { App.Toast.show('Please log in first'); return; }
-          const data = await App.Cart.apiFetch('/api/books/purchase', {
+          if (!email) { Toast.show('Please log in first'); return; }
+          const data = await apiFetch('/api/books/purchase', {
             method: 'POST', body: JSON.stringify({ book_id: id, email })
           });
           if (data.already_purchased) {
             window.open(`${API_BASE}/api/books/${id}/download?email=${encodeURIComponent(email)}`, '_blank');
-            App.Toast.show('Downloading your book…');
+            Toast.show('Downloading your book…');
             return;
           }
           if (data.access_code && typeof PaystackPop !== 'undefined') {
             const handler = PaystackPop.setup({
-              key: App.Cart.paystackKey,
+              key: Cart.getPaystackKey(),
               email, amount: data.amount * 100, currency: 'KES', ref: data.reference,
-              onClose: () => App.Toast.show('Payment cancelled'),
+              onClose: () => Toast.show('Payment cancelled'),
               callback: async (response) => {
                 try {
-                  const verify = await App.Cart.apiFetch(`/api/books/verify/${response.reference}`);
+                  const verify = await apiFetch(`/api/books/verify/${response.reference}`);
                   if (verify.success) {
-                    App.Toast.show('Payment successful! Downloading…');
+                    Toast.show('Payment successful! Downloading…');
                     window.open(`${API_BASE}/api/books/${id}/download?ref=${response.reference}`, '_blank');
                   }
-                } catch (e) { App.Toast.show('Verification failed. Contact support.'); }
+                } catch (e) { Toast.show('Verification failed. Contact support.'); }
               },
             });
             handler.openIframe();
           }
-        } catch (e) { App.Toast.show('Error: ' + e.message); }
-      });
+        } catch (e) { Toast.show('Error: ' + e.message); }
+      };
+      Cart.requireAuth(doPurchase);
     };
     return { fetchBooks, renderCarousel, renderGrid, getAll, openDetail, purchase };
   })();

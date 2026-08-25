@@ -170,6 +170,15 @@ const App = (() => {
       const grid = document.getElementById('product-grid');
       const empty = document.getElementById('searchEmpty');
       const countEl = document.getElementById('productCount');
+
+      if (state.category === 'books') {
+        const bookHtml = await Books.renderGrid();
+        if (grid) grid.innerHTML = bookHtml;
+        if (empty) empty.classList.add('hidden');
+        if (countEl) countEl.textContent = `${Books.getAll().length} books`;
+        return;
+      }
+
       if (!state.productsLoaded) await fetchProducts();
       if (state.products.length === 0) {
         if (grid) grid.innerHTML = '';
@@ -549,7 +558,9 @@ const App = (() => {
     const closePaymentModal = () => { const m = document.getElementById('paymentModal'); if (m) m.classList.add('hidden'); };
     const fallbackWhatsApp = () => { closePaymentModal(); checkoutWhatsApp(); };
 
-    return { add, remove, updateQty, clear, getCount, getTotal, updateUI, setDelivery: (loc) => { state.cart._location = loc; updateUI(); }, open, close, checkoutWhatsApp, checkoutPaystack, cancelPayment, closePaymentModal, fallbackWhatsApp, initPaystack, _checkoutAuthToggle, _checkoutAuthLogin, _checkoutAuthRegister };
+    const getPaystackKey = () => paystackKey;
+
+    return { add, remove, updateQty, clear, getCount, getTotal, updateUI, setDelivery: (loc) => { state.cart._location = loc; updateUI(); }, open, close, checkoutWhatsApp, checkoutPaystack, cancelPayment, closePaymentModal, fallbackWhatsApp, initPaystack, requireAuth, getPaystackKey, _checkoutAuthToggle, _checkoutAuthLogin, _checkoutAuthRegister };
   })();
 
   // ===== MODULE: Wishlist =====
@@ -803,6 +814,114 @@ const App = (() => {
     return { render, openModal, closeModal };
   })();
 
+  // ===== MODULE: Digital Books =====
+  const Books = (() => {
+    let books = [];
+    const CURRENCY = 'KSh';
+    const fetchBooks = async () => {
+      try {
+        const res = await fetch(API_BASE + '/api/books');
+        const data = await res.json();
+        books = data.books || [];
+      } catch (e) { books = []; }
+    };
+    const renderCard = (b) => {
+      const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      return `<div class="swiper-slide"><div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Books.openDetail(${b.id})">
+        <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
+          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-6xl\\'>📚</div>'">
+          <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+        </div>
+        <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${b.title}</p><p class="text-xs text-paragraph mt-0.5">${b.author || 'U-NiceNutraCare'}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${priceLabel}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button></div></div>
+      </div></div>`;
+    };
+    const renderGridCard = (b) => {
+      const cover = b.cover_url || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="%23e5e7eb"><rect width="200" height="280" rx="12"/><text x="100" y="140" text-anchor="middle" fill="%239ca3af" font-size="48">📚</text></svg>';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      return `<div class="product-card bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer" onclick="App.Books.openDetail(${b.id})" data-cat="books">
+        <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
+          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-5xl\\'>📚</div>'">
+          <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+        </div>
+        <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${b.title}</p><p class="text-xs text-paragraph mt-0.5">${b.author || 'U-NiceNutraCare'}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${priceLabel}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button></div></div>
+      </div>`;
+    };
+    const renderCarousel = async () => {
+      if (books.length === 0) await fetchBooks();
+      const el = document.getElementById('booksCarousel');
+      if (el) el.innerHTML = books.map(b => renderCard(b)).join('');
+    };
+    const renderGrid = async () => {
+      if (books.length === 0) await fetchBooks();
+      return books.map(b => renderGridCard(b)).join('');
+    };
+    const getAll = () => books;
+    const openDetail = (id) => {
+      const b = books.find(x => x.id === id);
+      if (!b) return;
+      const cover = b.cover_url || '';
+      const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
+      document.getElementById('productDetailBody').innerHTML = `
+        <div class="relative bg-gradient-to-br from-blue-50 to-indigo-50 h-56 flex items-center justify-center">
+          ${cover ? `<img src="${cover}" alt="${b.title}" class="w-full h-full object-cover">` : '<span class="text-8xl">📚</span>'}
+          <span class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
+          <button onclick="App.Products.closeDetail()" class="absolute top-3 right-3 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md haptic"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center gap-2 mb-2"><span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span><span class="text-paragraph text-xs">${b.author || 'U-NiceNutraCare'}</span></div>
+          <h2 class="font-display font-bold text-heading text-xl mb-1">${b.title}</h2>
+          <p class="text-paragraph text-sm mb-3">${b.description || ''}</p>
+          <div class="flex items-center gap-3 mb-4"><span class="font-display font-bold text-primary text-2xl">${priceLabel}</span></div>
+          <button onclick="App.Books.purchase(${b.id})" class="w-full bg-primary text-white font-bold text-sm py-3 rounded-full hover:bg-primary-dark transition haptic">Get This Book</button>
+        </div>`;
+      document.getElementById('productDetailModal').classList.remove('-translate-x-full');
+      document.body.style.overflow = 'hidden';
+    };
+    const purchase = async (id) => {
+      const b = books.find(x => x.id === id);
+      if (!b) return;
+      if (b.price === 0) {
+        window.open(`${API_BASE}/api/books/${id}/download`, '_blank');
+        return;
+      }
+      const doPurchase = async () => {
+        try {
+          const account = JSON.parse(localStorage.getItem('uniceAccount') || '{}');
+          const email = account.email;
+          if (!email) { Toast.show('Please log in first'); return; }
+          const data = await apiFetch('/api/books/purchase', {
+            method: 'POST', body: JSON.stringify({ book_id: id, email })
+          });
+          if (data.already_purchased) {
+            window.open(`${API_BASE}/api/books/${id}/download?email=${encodeURIComponent(email)}`, '_blank');
+            Toast.show('Downloading your book…');
+            return;
+          }
+          if (data.access_code && typeof PaystackPop !== 'undefined') {
+            const handler = PaystackPop.setup({
+              key: Cart.getPaystackKey(),
+              email, amount: data.amount * 100, currency: 'KES', ref: data.reference,
+              onClose: () => Toast.show('Payment cancelled'),
+              callback: async (response) => {
+                try {
+                  const verify = await apiFetch(`/api/books/verify/${response.reference}`);
+                  if (verify.success) {
+                    Toast.show('Payment successful! Downloading…');
+                    window.open(`${API_BASE}/api/books/${id}/download?ref=${response.reference}`, '_blank');
+                  }
+                } catch (e) { Toast.show('Verification failed. Contact support.'); }
+              },
+            });
+            handler.openIframe();
+          }
+        } catch (e) { Toast.show('Error: ' + e.message); }
+      };
+      Cart.requireAuth(doPurchase);
+    };
+    return { fetchBooks, renderCarousel, renderGrid, getAll, openDetail, purchase };
+  })();
+
   // ===== MODULE: Newsletter (API-backed) =====
   const Newsletter = (() => {
     const init = () => {
@@ -925,6 +1044,7 @@ const App = (() => {
     }
     Wishlist.render();
     Blog.render();
+    Books.renderCarousel();
     Cart.updateUI();
     Cart.initPaystack();
     Account.updateNavLabel();
@@ -949,6 +1069,7 @@ const App = (() => {
         new Swiper('.skincareSwiper', { ...sc, navigation: { nextEl: '.skincare-next', prevEl: '.skincare-prev' } });
         new Swiper('.bodycareSwiper', { ...sc, navigation: { nextEl: '.bodycare-next', prevEl: '.bodycare-prev' } });
         new Swiper('.wellnessSwiper', { ...sc, navigation: { nextEl: '.wellness-next', prevEl: '.wellness-prev' } });
+        new Swiper('.booksSwiper', { ...sc, navigation: { nextEl: '.books-next', prevEl: '.books-prev' } });
         new Swiper('.flashSwiper', { ...sc });
       } catch (e) { console.warn('Swiper init error:', e); }
     }
@@ -957,5 +1078,5 @@ const App = (() => {
 
   document.addEventListener('DOMContentLoaded', init);
 
-  return { I18n, Products, Cart, Wishlist, Reviews, Search, Blog, PWA, Account, Share, Toast, UI, FlashSale, ScrollEffects, Analytics };
+  return { I18n, Products, Cart, Wishlist, Reviews, Search, Blog, Books, PWA, Account, Share, Toast, UI, FlashSale, ScrollEffects, Analytics };
 })();
