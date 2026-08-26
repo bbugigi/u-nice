@@ -150,7 +150,7 @@ const App = (() => {
       const btnAction = opts.flash ? `App.Cart.add('${getName(p)}',${price},${p.id})` : `App.Products.openDetail(${p.id})`;
       return `<div class="swiper-slide"><div class="product-card bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer" onclick="${btnAction}" data-cat="${p.category}">
         <div class="product-img relative h-40 sm:h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-          <img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          <img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect width=%22200%22 height=%22200%22 fill=%22%23f0fdf4%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2264%22>📦</text></svg>'">
           ${badge}
         </div>
         <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${getName(p)}</p><p class="text-xs text-paragraph mt-0.5">${getUnit(p)}</p><div class="flex items-center justify-between mt-2"><div><span class="font-display font-bold text-primary text-sm">${CURRENCY} ${price}</span> ${origHtml}</div><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Cart.add('${getName(p)}',${price},${p.id})">${I18n.t('pd_add_cart')}</button></div></div>
@@ -190,7 +190,8 @@ const App = (() => {
           const badge = badges.length ? `<span class="absolute top-2 left-2 ${badges[0]==='Popular'||badges[0]==='Bestseller' ? 'bg-primary' : badges[0]==='New' ? 'bg-emerald-500' : badges[0]==='Premium' ? 'bg-secondary' : 'bg-flash'} text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${badges[0]}</span>` : '';
           return `<div class="product-card bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer" onclick="App.Products.openDetail(${p.id})" data-cat="${p.category}">
             <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-              <img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" onerror="this.style.display='none'">
+          <img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect width=%22200%22 height=%22200%22 fill=%22%23f0fdf4%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2264%22>📦</text></svg>'">
+
               ${badge}
             </div>
             <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${getName(p)}</p><p class="text-xs text-paragraph mt-0.5">${getUnit(p)}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${CURRENCY} ${p.price}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Cart.add('${getName(p)}',${p.price},${p.id})">Add</button></div></div>
@@ -271,7 +272,7 @@ const App = (() => {
       grid.innerHTML = state.recent.map(id => {
         const p = state.products.find(x => x.id === id);
         if (!p) return '';
-        return `<div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Products.openDetail(${p.id})"><div class="product-img relative h-36 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"><img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" onerror="this.style.display='none'"></div><div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${getName(p)}</p><p class="font-display font-bold text-primary text-sm mt-1">${CURRENCY} ${p.price}</p></div></div>`;
+        return `<div class="bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer haptic" onclick="App.Products.openDetail(${p.id})"><div class="product-img relative h-36 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"><img src="${p.image_url}" alt="${getName(p)}" class="w-full h-full object-cover" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect width=%22200%22 height=%22200%22 fill=%22%23f0fdf4%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2264%22>📦</text></svg>'"></div><div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${getName(p)}</p><p class="font-display font-bold text-primary text-sm mt-1">${CURRENCY} ${p.price}</p></div></div>`;
       }).join('');
     };
 
@@ -841,7 +842,7 @@ const App = (() => {
       const priceLabel = b.price > 0 ? `${CURRENCY} ${Number(b.price).toLocaleString()}` : 'Free';
       return `<div class="product-card bg-white rounded-2xl shadow-card border border-gray-50 overflow-hidden group cursor-pointer" onclick="App.Books.openDetail(${b.id})" data-cat="books">
         <div class="product-img relative h-36 sm:h-44 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
-          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-5xl\\'>📚</div>'">
+          <img src="${cover}" alt="${b.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center text-5xl\\'>📚</div>'">
           <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">📖 E-Book</span>
         </div>
         <div class="p-3"><p class="text-sm font-semibold text-heading line-clamp-1 group-hover:text-primary transition">${b.title}</p><p class="text-xs text-paragraph mt-0.5">${b.author || 'U-NiceNutraCare'}</p><div class="flex items-center justify-between mt-2"><span class="font-display font-bold text-primary text-sm">${priceLabel}</span><button class="bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-primary-dark transition haptic" onclick="event.stopPropagation();App.Books.purchase(${b.id})">Get Book</button></div></div>

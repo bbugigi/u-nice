@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const STATIC_CACHE = `unicenutra-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `unicenutra-dynamic-${CACHE_VERSION}`;
 const IMAGE_CACHE = `unicenutra-images-${CACHE_VERSION}`;
@@ -6,6 +6,8 @@ const IMAGE_CACHE = `unicenutra-images-${CACHE_VERSION}`;
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/app.min.js',
+  '/src/style.compiled.css',
   '/manifest.json',
   '/privacy.html',
   '/terms.html'
@@ -14,10 +16,7 @@ const PRECACHE_URLS = [
 const CDN_URLS = [
   'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
   'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
-  'https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js',
-  'https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js',
-  'https://js.paystack.co/v2/inline.js',
-  'https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Urbanist:wght@400;500;600;700;800;900&display=swap'
+  'https://js.paystack.co/v2/inline.js'
 ];
 
 self.addEventListener('install', e => {

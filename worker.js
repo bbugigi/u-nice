@@ -39,11 +39,13 @@ function getCorsHeaders(request) {
   };
 }
 
-function jsonResponse(data, status = 200, corsHeaders = {}) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders },
-  });
+function jsonResponse(data, status = 200, corsHeaders = {}, cacheSeconds = 0) {
+  const headers = { 'Content-Type': 'application/json', ...corsHeaders };
+  if (cacheSeconds > 0) {
+    headers['Cache-Control'] = `public, s-maxage=${cacheSeconds}, max-age=${cacheSeconds}`;
+    headers['CDN-Cache-Control'] = `public, s-maxage=${cacheSeconds}`;
+  }
+  return new Response(JSON.stringify(data), { status, headers });
 }
 
 function errorResponse(msg, status = 400, corsHeaders = {}) {
@@ -60,6 +62,11 @@ function withCors(response, corsHeaders) {
     statusText: response.statusText,
     headers: newHeaders,
   });
+}
+
+// ===== EDGE CACHE HELPER =====
+function cacheKey(url) {
+  return new Request(url.toString(), { method: 'GET' });
 }
 
 // ===== AUTH HELPERS (Web Crypto API) =====
@@ -277,7 +284,7 @@ async function handleGetProducts(request, env) {
     benefits_fr: JSON.parse(p.benefits_fr || '[]'),
   }));
 
-  return jsonResponse({ products, total, limit, offset });
+  return jsonResponse({ products, total, limit, offset }, 200, {}, 120);
 }
 
 async function handleGetProduct(request, env) {
@@ -835,7 +842,7 @@ async function handleGetBooks(request, env) {
   const { results } = await env.DB.prepare(
     'SELECT id, title, author, description, price, cover_url, sort_order, is_active, created_at FROM books WHERE is_active = 1 ORDER BY sort_order ASC, id ASC'
   ).all();
-  return jsonResponse({ books: results });
+  return jsonResponse({ books: results }, 200, {}, 300);
 }
 
 async function handleAdminGetBooks(request, env) {
@@ -1067,13 +1074,32 @@ export default {
       const url = new URL(request.url);
       const path = url.pathname;
 
+      // --- EDGE CACHE for public GET endpoints ---
+      const CACHE_TTLS = {
+        '/api/products': 120,
+        '/api/books': 300,
+        '/api/settings': 300,
+        '/api/config': 300,
+      };
+
+      if (request.method === 'GET' && CACHE_TTLS[path] && !url.searchParams.get('nocache')) {
+        const cache = caches.default;
+        const cacheReq = new Request(request.url, { method: 'GET' });
+        const cached = await cache.match(cacheReq);
+        if (cached) {
+          const resp = new Response(cached.body, cached);
+          resp.headers.set('X-Cache', 'HIT');
+          return withCors(resp, cors);
+        }
+      }
+
       if (path === '/api/health') {
         return jsonResponse({ status: 'ok', timestamp: new Date().toISOString() }, 200, cors);
       }
 
       // Public config (safe to expose)
       if (path === '/api/config') {
-        return jsonResponse({ paystackPublicKey: env.PAYSTACK_PUBLIC_KEY || '' }, 200, cors);
+        return jsonResponse({ paystackPublicKey: env.PAYSTACK_PUBLIC_KEY || '' }, 200, cors, 300);
       }
 
       let response;
@@ -1195,7 +1221,30 @@ export default {
         response = await handlePaymentStatus(request, env);
       }
 
-      if (response) return withCors(response, cors);
+      if (response) {
+        // Edge cache the response for public GET endpoints
+        if (request.method === 'GET' && CACHE_TTLS[path]) {
+          const ttl = CACHE_TTLS[path];
+          const cache = caches.default;
+          const cacheReq = new Request(request.url, { method: 'GET' });
+          const toCache = response.clone();
+          toCache.headers.set('Cache-Control', `public, s-maxage=${ttl}`);
+          toCache.headers.set('X-Cache', 'MISS');
+          ctx.waitUntil(cache.put(cacheReq, toCache));
+        }
+        // Purge cache when admin mutates data
+        if (request.method !== 'GET' && request.method !== 'OPTIONS' && path.startsWith('/api/admin/')) {
+          const cache = caches.default;
+          ctx.waitUntil(
+            Promise.all([
+              cache.delete(new Request(url.origin + '/api/products', { method: 'GET' })),
+              cache.delete(new Request(url.origin + '/api/books', { method: 'GET' })),
+              cache.delete(new Request(url.origin + '/api/settings', { method: 'GET' })),
+            ])
+          );
+        }
+        return withCors(response, cors);
+      }
       return errorResponse('Not found', 404, cors);
 
     } catch (error) {
